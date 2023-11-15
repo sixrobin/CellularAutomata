@@ -2,8 +2,12 @@ namespace CellularAutomata
 {
     using UnityEngine;
 
+    [DisallowMultipleComponent]
     public abstract class CellularAutomaton : MonoBehaviour
     {
+        private static readonly int MAIN_TEX_SHADER_ID = Shader.PropertyToID("_MainTex");
+        private static readonly int RAMP_SHADER_ID = Shader.PropertyToID("_Ramp");
+        
         [SerializeField]
         protected ComputeShader _computeShader;
 
@@ -24,9 +28,6 @@ namespace CellularAutomata
 
         [SerializeField]
         private Gradient _gradient;
-
-        private static readonly int MAIN_TEX_SHADER_ID = Shader.PropertyToID("_MainTex");
-        private static readonly int RAMP_SHADER_ID = Shader.PropertyToID("_Ramp");
 
         protected RenderTexture _grid;
         protected RenderTexture _gridBuffer;
@@ -107,8 +108,7 @@ namespace CellularAutomata
             this._renderer.material.SetTexture(RAMP_SHADER_ID, this._ramp);
         }
 
-        #region UNITY FUNCTIONS
-
+        #region UNITY METHODS
         private void Start()
         {
             this.Init();
@@ -128,7 +128,6 @@ namespace CellularAutomata
         {
             this._renderer = this.GetComponent<Renderer>();
         }
-
-        #endregion // UNITY FUNCTIONS
+        #endregion // UNITY METHODS
     }
 }
