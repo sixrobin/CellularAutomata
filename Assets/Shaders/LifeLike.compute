@@ -26,8 +26,10 @@ void Iterate(uint3 id : SV_DispatchThreadID)
 {
     float4 pos = float4(id.x / Resolution, id.y / Resolution, 0, 0);
     float state = tex2Dlod(GridBuffer, pos).r;
-    float delta = 1.0 / Resolution;
-    
+    float delta = 1.0 / Resolution; // Neighbour distance.
+
+    // Compute neighbours count.
+    // Each neighbours is stepped by 0.99999 because a value less than 1 means cell is already dead, but fading. Thus, we do not want to add them at all in count.
     int neighbours = 0;
     neighbours += step(0.99999, tex2Dlod(GridBuffer, pos + float4(-delta, -delta, 0, 0)).x);
     neighbours += step(0.99999, tex2Dlod(GridBuffer, pos + float4(-delta, 0, 0, 0)).x);
@@ -38,6 +40,7 @@ void Iterate(uint3 id : SV_DispatchThreadID)
     neighbours += step(0.99999, tex2Dlod(GridBuffer, pos + float4(delta, -delta, 0, 0)).x);
     neighbours += step(0.99999, tex2Dlod(GridBuffer, pos + float4(0, -delta, 0, 0)).x);
 
+    // Modify neighbours count using 2^n formula to make it comparable with the rules, using a AND operator.
     neighbours = pow(2, neighbours);
     
     if (state < 1) // Dead.
