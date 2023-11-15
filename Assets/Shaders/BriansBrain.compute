@@ -2,15 +2,10 @@
 #pragma kernel Iterate
 #pragma kernel ApplyBuffer
 
-RWTexture2D<float4> Result;
-sampler2D GridBuffer;
-float Resolution;
-float DecayStep;
+// https://en.wikipedia.org/wiki/Brian%27s_Brain
 
-float random(float2 uv)
-{
-    return frac(sin(dot(uv, float2(12.9898, 78.233))) * 43758.5453);
-}
+#include "CellularAutomaton.cginc"
+#include "Random.cginc"
 
 [numthreads(8,8,1)]
 void Init(uint3 id : SV_DispatchThreadID)
@@ -28,29 +23,13 @@ void Init(uint3 id : SV_DispatchThreadID)
 void Iterate(uint3 id : SV_DispatchThreadID)
 {
     float4 pos = float4(id.x / Resolution, id.y / Resolution, 0, 0);
+    int neighbours = computeNeighboursCount(pos);
     float state = tex2Dlod(GridBuffer, pos).r;
-    float delta = 1.0 / Resolution;
 
-    float onNeighbours = 0;
-    onNeighbours += step(0.9, tex2Dlod(GridBuffer, pos + float4(-delta, -delta, 0, 0)).x);
-    onNeighbours += step(0.9, tex2Dlod(GridBuffer, pos + float4(-delta, 0, 0, 0)).x);
-    onNeighbours += step(0.9, tex2Dlod(GridBuffer, pos + float4(-delta, delta, 0, 0)).x);
-    onNeighbours += step(0.9, tex2Dlod(GridBuffer, pos + float4(0, delta, 0, 0)).x);
-    onNeighbours += step(0.9, tex2Dlod(GridBuffer, pos + float4(delta, delta, 0, 0)).x);
-    onNeighbours += step(0.9, tex2Dlod(GridBuffer, pos + float4(delta, 0, 0, 0)).x);
-    onNeighbours += step(0.9, tex2Dlod(GridBuffer, pos + float4(delta, -delta, 0, 0)).x);
-    onNeighbours += step(0.9, tex2Dlod(GridBuffer, pos + float4(0, -delta, 0, 0)).x);
-
-    if (state < 0.1 && onNeighbours == 2)
-    {
-        // "Off" cell with 2 "on" neighbours goes alive.
-        state = 1;
-    }
+    if (state < 0.1 && neighbours == 2)
+        state = 1; // "Off" cell with 2 "on" neighbours goes alive.
     else
-    {
-        // "On" and "dying" cells decay each iteration ("on" become "dying", "dying become "off").
-        state -= 0.5;
-    }
+        state -= 0.5; // "On" and "dying" cells decay each iteration ("on" become "dying", "dying become "off").
     
     Result[id.xy] = float4(state.xxx, 1);
 }

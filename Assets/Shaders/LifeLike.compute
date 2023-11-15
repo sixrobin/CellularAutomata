@@ -2,18 +2,11 @@
 #pragma kernel Iterate
 #pragma kernel ApplyBuffer
 
-RWTexture2D<float4> Result;
-sampler2D GridBuffer;
+#include "CellularAutomaton.cginc"
+#include "Random.cginc"
+
 int2 Rules;
-
-float Resolution;
-float DecayStep;
 float InitRandomStep;
-
-float random(float2 uv)
-{
-    return frac(sin(dot(uv, float2(12.9898, 78.233))) * 43758.5453);
-}
 
 [numthreads(8,8,1)]
 void Init(uint3 id : SV_DispatchThreadID)
@@ -25,20 +18,8 @@ void Init(uint3 id : SV_DispatchThreadID)
 void Iterate(uint3 id : SV_DispatchThreadID)
 {
     float4 pos = float4(id.x / Resolution, id.y / Resolution, 0, 0);
+    int neighbours = computeNeighboursCount(pos);
     float state = tex2Dlod(GridBuffer, pos).r;
-    float delta = 1.0 / Resolution; // Neighbour distance.
-
-    // Compute neighbours count.
-    // Each neighbours is stepped by 0.99999 because a value less than 1 means cell is already dead, but fading. Thus, we do not want to add them at all in count.
-    int neighbours = 0;
-    neighbours += step(0.99999, tex2Dlod(GridBuffer, pos + float4(-delta, -delta, 0, 0)).x);
-    neighbours += step(0.99999, tex2Dlod(GridBuffer, pos + float4(-delta, 0, 0, 0)).x);
-    neighbours += step(0.99999, tex2Dlod(GridBuffer, pos + float4(-delta, delta, 0, 0)).x);
-    neighbours += step(0.99999, tex2Dlod(GridBuffer, pos + float4(0, delta, 0, 0)).x);
-    neighbours += step(0.99999, tex2Dlod(GridBuffer, pos + float4(delta, delta, 0, 0)).x);
-    neighbours += step(0.99999, tex2Dlod(GridBuffer, pos + float4(delta, 0, 0, 0)).x);
-    neighbours += step(0.99999, tex2Dlod(GridBuffer, pos + float4(delta, -delta, 0, 0)).x);
-    neighbours += step(0.99999, tex2Dlod(GridBuffer, pos + float4(0, -delta, 0, 0)).x);
 
     // Modify neighbours count using 2^n formula to make it comparable with the rules, using a AND operator.
     neighbours = pow(2, neighbours);
