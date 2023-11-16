@@ -87,9 +87,8 @@ namespace CellularAutomata.CubeRayMarching
             this._computeShader.SetMatrix("_CameraToWorld", this._camera.cameraToWorldMatrix);
             this._computeShader.SetMatrix("_CameraInverseProjection", this._camera.projectionMatrix.inverse);
             
-            // Set source/destination textures.
-            this._computeShader.SetTexture(0, "Source", source);
-            this._computeShader.SetTexture(0, "Destination", this._renderTexture);
+            // Set destination texture.
+            this._computeShader.SetTexture(0, "Result", this._renderTexture);
             
             // Dispatch.
             int threadGroupsX = Mathf.CeilToInt(this._camera.pixelWidth / 8f);

@@ -1,10 +1,9 @@
 #pragma kernel CSMain
 
-static const float maxDistance = 80;
+static const float maxDistance = 100;
 static const float epsilon = 0.001f;
 
-Texture2D Source;
-RWTexture2D<float4> Destination;
+RWTexture2D<float4> Result;
 
 float4x4 _CameraToWorld;
 float4x4 _CameraInverseProjection;
@@ -34,7 +33,7 @@ float CubeDistance(float3 eye, float3 center, float3 scale)
 }
 float CubeInfoDistance(CubeInfo cube, float3 eye)
 {
-    return CubeDistance(eye, cube.Position, cube.Scale);
+    return CubeDistance(eye, cube.Position, cube.Scale * 0.5);
 }
 
 Ray GetCameraRay(float2 uv)
@@ -42,8 +41,7 @@ Ray GetCameraRay(float2 uv)
     // Compute ray data.
     float3 origin = mul(_CameraToWorld, float4(0, 0, 0, 1)).xyz;
     float3 direction = mul(_CameraInverseProjection, float4(uv, 0, 1)).xyz;
-    direction = mul(_CameraToWorld, float4(direction, 0)).xyz;
-    direction = normalize(direction);
+    direction = normalize(mul(_CameraToWorld, float4(direction, 0)).xyz);
 
     // Create actual ray.
     Ray ray;
@@ -75,12 +73,12 @@ float4 ComputeCubesData(float3 eye)
 [numthreads(8,8,1)]
 void CSMain(uint3 id : SV_DispatchThreadID)
 {
+    Result[id.xy] = float4(0,0,0,0);
+
     uint width;
     uint height;
-    Destination.GetDimensions(width, height);
+    Result.GetDimensions(width, height);
     float2 uv = id.xy / float2(width, height) * 2 - 1;
-
-    Destination[id.xy] = Source[id.xy];
 
     Ray ray = GetCameraRay(uv);
     float rayDistance = 0;
@@ -92,7 +90,7 @@ void CSMain(uint3 id : SV_DispatchThreadID)
         
         if (distance <= epsilon)
         {
-            Destination[id.xy] = float4(cubesData.rgb, 1);
+            Result[id.xy] = float4(cubesData.rgb, 1);
             break;
         }
 
