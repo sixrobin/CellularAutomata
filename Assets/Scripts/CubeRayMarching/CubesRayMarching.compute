@@ -1,0 +1,112 @@
+#pragma kernel CSMain
+
+static const float maxDistance = 80;
+static const float epsilon = 0.001f;
+
+Texture2D Source;
+RWTexture2D<float4> Destination;
+
+float4x4 _CameraToWorld;
+float4x4 _CameraInverseProjection;
+
+struct CubeInfo
+{
+    float3 Position;
+    float3 Scale;
+};
+
+struct Ray
+{
+    float3 Origin;
+    float3 Direction;
+};
+
+StructuredBuffer<CubeInfo> Cubes;
+int CubesLength;
+
+float CubeDistance(float3 eye, float3 center, float3 scale)
+{
+    float3 o = abs(eye - center) - scale;
+    float ud = length(max(o, 0));
+    float n = max(max(min(o.x, 0), min(o.y, 0)), min(o.z, 0));
+    return ud + n;
+}
+float CubeInfoDistance(CubeInfo cube, float3 eye)
+{
+    return CubeDistance(eye, cube.Position, cube.Scale);
+}
+
+Ray GetCameraRay(float2 uv)
+{
+    // Compute ray data.
+    float3 origin = mul(_CameraToWorld, float4(0, 0, 0, 1)).xyz;
+    float3 direction = mul(_CameraInverseProjection, float4(uv, 0, 1)).xyz;
+    direction = mul(_CameraToWorld, float4(direction, 0)).xyz;
+    direction = normalize(direction);
+
+    // Create actual ray.
+    Ray ray;
+    ray.Origin = origin;
+    ray.Direction = direction;
+    return ray;
+}
+
+float AllCubesDistance(float3 eye)
+{
+    float globalDistance = maxDistance;
+    
+    for (int i = 0; i < CubesLength; ++i)
+    {
+        CubeInfo cube = Cubes[i];
+        float localDistance = CubeInfoDistance(cube, eye);
+        
+        if (localDistance < globalDistance) {
+            globalDistance = localDistance;
+        }
+    }
+
+    return globalDistance;
+}
+
+[numthreads(8,8,1)]
+void CSMain(uint3 id : SV_DispatchThreadID)
+{
+    uint width;
+    uint height;
+    Destination.GetDimensions(width, height);
+    float2 uv = id.xy / float2(width, height) * 2 - 1;
+
+    Destination[id.xy] = Source[id.xy];
+
+    Ray ray = GetCameraRay(uv);
+    int marchSteps = 0;
+    float rayDistance = 0;
+    
+    while (rayDistance < maxDistance)
+    {
+        marchSteps++;
+        float distance = AllCubesDistance(ray.Origin);
+        
+        if (distance <= epsilon)
+        {
+            // float3 pointOnSurface = ray.Origin + ray.Direction * distance;
+            // float3 normal = EstimateNormal(pointOnSurface - ray.Direction * epsilon);
+            // float3 lightDir = positionLight ? normalize(_Light - ray.Origin) : -_Light;
+            // float lighting = saturate(saturate(dot(normal, lightDir)));
+            float3 color = float3(1, 1, 1);
+            
+            // // Shadow
+            // float3 offsetPos = pointOnSurface + normal * shadowBias;
+            // float3 dirToLight = positionLight ? normalize(_Light - offsetPos) : -_Light;
+            
+            // ray.Origin = offsetPos;
+            // ray.Direction = dirToLight;
+
+            Destination[id.xy] = float4(color, 1);
+            break;
+        }
+
+        ray.Origin += ray.Direction * distance;
+        rayDistance += distance;
+    }
+}
