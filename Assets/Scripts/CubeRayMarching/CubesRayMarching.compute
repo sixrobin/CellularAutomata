@@ -13,6 +13,7 @@ struct CubeInfo
 {
     float3 Position;
     float3 Scale;
+    float3 Color;
 };
 
 struct Ray
@@ -51,21 +52,24 @@ Ray GetCameraRay(float2 uv)
     return ray;
 }
 
-float AllCubesDistance(float3 eye)
+float4 ComputeCubesData(float3 eye)
 {
-    float globalDistance = maxDistance;
+    float distanceField = maxDistance;
+    float3 color = float3(0, 0, 0);
     
     for (int i = 0; i < CubesLength; ++i)
     {
         CubeInfo cube = Cubes[i];
         float localDistance = CubeInfoDistance(cube, eye);
         
-        if (localDistance < globalDistance) {
-            globalDistance = localDistance;
+        if (localDistance < distanceField)
+        {
+            distanceField = localDistance;
+            color = cube.Color;
         }
     }
 
-    return globalDistance;
+    return float4(color, distanceField);
 }
 
 [numthreads(8,8,1)]
@@ -79,30 +83,16 @@ void CSMain(uint3 id : SV_DispatchThreadID)
     Destination[id.xy] = Source[id.xy];
 
     Ray ray = GetCameraRay(uv);
-    int marchSteps = 0;
     float rayDistance = 0;
     
     while (rayDistance < maxDistance)
     {
-        marchSteps++;
-        float distance = AllCubesDistance(ray.Origin);
+        float4 cubesData = ComputeCubesData(ray.Origin);
+        float distance = cubesData.w;
         
         if (distance <= epsilon)
         {
-            // float3 pointOnSurface = ray.Origin + ray.Direction * distance;
-            // float3 normal = EstimateNormal(pointOnSurface - ray.Direction * epsilon);
-            // float3 lightDir = positionLight ? normalize(_Light - ray.Origin) : -_Light;
-            // float lighting = saturate(saturate(dot(normal, lightDir)));
-            float3 color = float3(1, 1, 1);
-            
-            // // Shadow
-            // float3 offsetPos = pointOnSurface + normal * shadowBias;
-            // float3 dirToLight = positionLight ? normalize(_Light - offsetPos) : -_Light;
-            
-            // ray.Origin = offsetPos;
-            // ray.Direction = dirToLight;
-
-            Destination[id.xy] = float4(color, 1);
+            Destination[id.xy] = float4(cubesData.rgb, 1);
             break;
         }
 

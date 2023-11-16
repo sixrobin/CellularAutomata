@@ -10,10 +10,11 @@ namespace CellularAutomata.CubeRayMarching
     {
         private struct CubeInfo
         {
-            public const int BUFFER_SIZE = sizeof(float) * 6;
+            public const int BUFFER_SIZE = sizeof(float) * 9;
 
             public Vector3 Position;
             public Vector3 Scale;
+            public Vector3 Color;
         }
         
         [SerializeField]
@@ -63,6 +64,7 @@ namespace CellularAutomata.CubeRayMarching
                 {
                     Position = cube.Position,
                     Scale = cube.Scale,
+                    Color = cube.ColorToVector3(),
                 };
             }
 
