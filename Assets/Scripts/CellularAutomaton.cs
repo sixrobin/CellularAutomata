@@ -15,7 +15,7 @@ namespace CellularAutomata
         private Renderer _renderer;
 
         [SerializeField]
-        private E_Resolution _resolution = E_Resolution._128;
+        private Resolution _resolution = CellularAutomata.Resolution._128;
 
         [SerializeField]
         private TextureWrapMode _wrapMode = TextureWrapMode.Repeat;
@@ -33,22 +33,6 @@ namespace CellularAutomata
         protected RenderTexture _gridBuffer;
         private float _timer;
         private Texture2D _ramp;
-
-        private enum E_Resolution
-        {
-            [InspectorName("8")] _8 = 8,
-            [InspectorName("16")] _16 = 16,
-            [InspectorName("32")] _32 = 32,
-            [InspectorName("64")] _64 = 64,
-            [InspectorName("128")] _128 = 128,
-            [InspectorName("256")] _256 = 256,
-            [InspectorName("512")] _512 = 512,
-            [InspectorName("1024")] _1024 = 1024,
-            [InspectorName("2048")] _2048 = 2048,
-            [InspectorName("4096")] _4096 = 4096,
-            [InspectorName("8192")] _8192 = 8192,
-            [InspectorName("16384")] _16384 = 16384,
-        }
 
         protected int Resolution => (int)this._resolution;
 

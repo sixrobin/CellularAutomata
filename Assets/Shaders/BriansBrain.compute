@@ -4,7 +4,7 @@
 
 // https://en.wikipedia.org/wiki/Brian%27s_Brain
 
-#include "CellularAutomaton.cginc"
+#include "CellularAutomaton2D.cginc"
 #include "Random.cginc"
 
 [numthreads(8,8,1)]

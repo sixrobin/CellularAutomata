@@ -2,7 +2,7 @@
 #pragma kernel Iterate
 #pragma kernel ApplyBuffer
 
-#include "CellularAutomaton.cginc"
+#include "CellularAutomaton2D.cginc"
 #include "Random.cginc"
 
 int2 Rules;

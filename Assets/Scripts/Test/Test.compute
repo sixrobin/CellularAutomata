@@ -1,0 +1,18 @@
+#pragma kernel CSMain
+
+struct Cube
+{
+    float3 Position;
+    float3 Color;
+};
+
+RWTexture2D<float4> Result;
+RWStructuredBuffer<Cube> _Cubes;
+float _Resolution;
+
+[numthreads(64,1,1)]
+void CSMain(uint3 id : SV_DispatchThreadID)
+{
+    _Cubes[id.x].Position = float3(id.x, 0, 0);
+    _Cubes[id.x].Color = float3((id.x / _Resolution).xxx);
+}

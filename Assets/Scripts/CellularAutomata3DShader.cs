@@ -1,33 +1,48 @@
-namespace CellularAutomata.CubeRayMarching
+namespace CellularAutomata
 {
+    using CubeRayMarching;
     using UnityEngine;
+    using CubeInfo = CubeRayMarching.CubesRayMarching.CubeInfo;
 
     [ExecuteInEditMode]
     [DisallowMultipleComponent]
-    // [ImageEffectAllowedInSceneView]
     [RequireComponent(typeof(Camera))]
-    public class CubesRayMarching : MonoBehaviour
+    public class CellularAutomaton3DShader : MonoBehaviour
     {
-        public struct CubeInfo
-        {
-            public const int BUFFER_SIZE = sizeof(float) * 9;
-
-            public Vector3 Position;
-            public Vector3 Scale;
-            public Vector3 Color;
-        }
-        
         [SerializeField]
         private ComputeShader _computeShader;
+        [SerializeField]
+        private int _resolution = 8;
         
-        private Cube[] _cubes;
+        private CubeInfo[] _cubes;
         private Camera _camera;
         private RenderTexture _renderTexture;
+        private ComputeBuffer _cubesBuffer;
+        
+        private void Awake()
+        {
+            this.Init();
+        }
 
         private void Init()
         {
             this._camera = Camera.main;
-            this._cubes = FindObjectsByType<Cube>(FindObjectsSortMode.None);
+
+            this._cubes = new CubeInfo[this._resolution * this._resolution * this._resolution];
+            
+            for (int x = 0; x < this._resolution; ++x)
+                for (int y = 0; y < this._resolution; ++y)
+                    for (int z = 0; z < this._resolution; ++z)
+                        this._cubes[x + this._resolution * y + this._resolution * this._resolution * z] = new CubeInfo
+                        {
+                            Position = new Vector3(x, y, z),
+                            Scale = Vector3.one,
+                            Color = new Vector3(x / (float)(this._resolution - 1), y / (float)(this._resolution - 1), z / (float)(this._resolution - 1))
+                        };
+            
+            this._cubesBuffer = new ComputeBuffer(this._cubes.Length, CubeInfo.BUFFER_SIZE);
+            
+            this.InitRenderTexture();
         }
 
         private void InitRenderTexture()
@@ -51,37 +66,13 @@ namespace CellularAutomata.CubeRayMarching
                 this._renderTexture.Create();
             }
         }
-
-        private CubeInfo[] ComputeCubesInfo()
-        {
-            // TODO: Sort by depth.
-            CubeInfo[] cubesInfo = new CubeInfo[this._cubes.Length];
-            
-            for (int i = 0; i < _cubes.Length; ++i)
-            {
-                Cube cube = _cubes[i];
-                cubesInfo[i] = new CubeInfo
-                {
-                    Position = cube.Position,
-                    Scale = cube.Scale,
-                    Color = cube.ColorToVector3(),
-                };
-            }
-
-            return cubesInfo;
-        }
         
         private void OnRenderImage(RenderTexture source, RenderTexture destination)
         {
-            this.Init();
-            this.InitRenderTexture();
-
             // Cubes info.
-            CubeInfo[] cubesInfo = this.ComputeCubesInfo();
-            ComputeBuffer cubesBuffer = new(cubesInfo.Length, CubeInfo.BUFFER_SIZE);
-            cubesBuffer.SetData(cubesInfo);
-            this._computeShader.SetBuffer(0, "Cubes", cubesBuffer);
-            this._computeShader.SetInt("CubesLength", cubesInfo.Length);
+            this._cubesBuffer.SetData(this._cubes);
+            this._computeShader.SetBuffer(0, "Cubes", this._cubesBuffer);
+            this._computeShader.SetInt("CubesLength", this._cubes.Length);
             
             // Rendering parameters.
             this._computeShader.SetMatrix("_CameraToWorld", this._camera.cameraToWorldMatrix);
@@ -94,7 +85,7 @@ namespace CellularAutomata.CubeRayMarching
             int threadGroupsX = Mathf.CeilToInt(this._camera.pixelWidth / 8f);
             int threadGroupsY = Mathf.CeilToInt(this._camera.pixelHeight / 8f);
             this._computeShader.Dispatch(0, threadGroupsX, threadGroupsY, 1);
-
+            
             Graphics.Blit(this._renderTexture, destination);
             
             // TODO: Release buffers.
