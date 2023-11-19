@@ -15,7 +15,7 @@ float _Resolution;
 [numthreads(8,8,8)]
 void CSMain(uint3 id : SV_DispatchThreadID)
 {
-    int display = step(random(id), 0.2);
+    int display = step(random(id.xyz), 0.2);
     
     uint uid = id.x + id.y * _Resolution + id.z * _Resolution * _Resolution;
     _Cubes[uid].Position = float3(id.xyz);
