@@ -13,7 +13,7 @@ public class ComputeShaderLoop : MonoBehaviour
     [SerializeField]
     private ComputeShader _computeShader;
     [SerializeField]
-    private TestCube[] _testCubes;
+    private int _resolution = 8;
 
     [SerializeField]
     private Material _material;
@@ -24,17 +24,13 @@ public class ComputeShaderLoop : MonoBehaviour
     
     private void OnEnable()
     {
-        Cube[] cubes = new Cube[this._testCubes.Length];
-        for (int i = 0; i < cubes.Length; ++i)
-        {
-            cubes[i] = new Cube
-            {
-                Position = this._testCubes[i].transform.position,
-                Color = new Vector3(Color.white.r, Color.white.g, Color.white.b),
-            };
-        }
-        
-        _cubesBuffer = new ComputeBuffer(this._testCubes.Length, Cube.BUFFER_SIZE);
+        Cube[] cubes = new Cube[_resolution * _resolution];
+
+        for (int x = 0; x < _resolution; ++x)
+            for (int y = 0; y < _resolution; ++y)
+                cubes[x + y * this._resolution] = new Cube();
+
+        _cubesBuffer = new ComputeBuffer(cubes.Length, Cube.BUFFER_SIZE);
     }
 
     private void OnDisable()
@@ -46,13 +42,14 @@ public class ComputeShaderLoop : MonoBehaviour
     private void Update()
     {
         this._computeShader.SetBuffer(0, "_Cubes", this._cubesBuffer);
-        this._computeShader.SetFloat("_Resolution", _testCubes.Length);
-        this._computeShader.Dispatch(0, 1, 1, 1);
+        this._computeShader.SetFloat("_Resolution", this._resolution);
+        int groups = Mathf.CeilToInt(this._resolution / 8f);
+        this._computeShader.Dispatch(0, groups, groups, 1);
         
         this._material.SetBuffer("_Cubes", this._cubesBuffer);
         this._material.SetFloat("_Step", 1f);
         
-        Bounds bounds = new(Vector3.zero, Vector3.one * 10f);
+        Bounds bounds = new(Vector3.zero, Vector3.one * this._resolution);
         Graphics.DrawMeshInstancedProcedural(this._mesh, 0, this._material, bounds, this._cubesBuffer.count);
     }
 }

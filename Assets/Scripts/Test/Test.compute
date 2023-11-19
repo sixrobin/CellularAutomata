@@ -10,9 +10,9 @@ RWTexture2D<float4> Result;
 RWStructuredBuffer<Cube> _Cubes;
 float _Resolution;
 
-[numthreads(64,1,1)]
+[numthreads(8,8,1)]
 void CSMain(uint3 id : SV_DispatchThreadID)
 {
-    _Cubes[id.x].Position = float3(id.x, 0, 0);
-    _Cubes[id.x].Color = float3((id.x / _Resolution).xxx);
+    _Cubes[id.x + id.y * _Resolution].Position = float3(id.xy, 0);
+    _Cubes[id.x + id.y * _Resolution].Color = float3(id.xy / _Resolution, 0);
 }
