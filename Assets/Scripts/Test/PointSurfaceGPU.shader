@@ -8,7 +8,7 @@ Shader "Graph/Point Surface GPU"
 	SubShader
 	{
 		CGPROGRAM
-		#pragma surface surf Standard fullforwardshadows addshadow
+		#pragma surface surf Standard fullforwardshadows
 		#pragma instancing_options assumeuniformscaling procedural:ConfigureProcedural
 		#pragma editor_sync_compilation
 		#pragma target 4.5
@@ -16,7 +16,7 @@ Shader "Graph/Point Surface GPU"
 		struct Cube
 		{
 		    float3 Position;
-		    float3 Color;
+		    float State;
 		};
 		
 		#if defined(UNITY_PROCEDURAL_INSTANCING_ENABLED)
@@ -55,6 +55,12 @@ Shader "Graph/Point Surface GPU"
 		
 		void surf(Input input, inout SurfaceOutputStandard o)
 		{
+			#if defined(UNITY_PROCEDURAL_INSTANCING_ENABLED)
+			Cube cube = _Cubes[unity_InstanceID];
+			if (cube.State == 0)
+				discard;
+			#endif
+			
 			o.Albedo = input.worldPos / _Resolution;
 			o.Smoothness = _Smoothness;
 		}

@@ -1,9 +1,11 @@
 #pragma kernel CSMain
 
+#include "Assets/Shaders/Random.cginc"
+
 struct Cube
 {
     float3 Position;
-    float3 Color;
+    float State;
 };
 
 RWTexture2D<float4> Result;
@@ -13,7 +15,9 @@ float _Resolution;
 [numthreads(8,8,8)]
 void CSMain(uint3 id : SV_DispatchThreadID)
 {
+    int display = step(random(id), 0.2);
+    
     uint uid = id.x + id.y * _Resolution + id.z * _Resolution * _Resolution;
     _Cubes[uid].Position = float3(id.xyz);
-    _Cubes[uid].Color = float3(id.xyz / _Resolution);
+    _Cubes[uid].State = display;
 }

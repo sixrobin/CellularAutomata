@@ -4,10 +4,10 @@ public class ComputeShaderLoop : MonoBehaviour
 {
     public struct Cube
     {
-        public const int BUFFER_SIZE = sizeof(float) * 6;
+        public const int BUFFER_SIZE = sizeof(float) * 4;
         
         public Vector3 Position;
-        public Vector3 Color;
+        public float State;
     }
     
     [SerializeField]
