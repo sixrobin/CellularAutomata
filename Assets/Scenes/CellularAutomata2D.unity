@@ -299,7 +299,7 @@ MonoBehaviour:
     m_ColorSpace: -1
     m_NumColorKeys: 2
     m_NumAlphaKeys: 2
-  _rules: B35/S35
+  _rules: B3,5/S3,5
   _randomStep: 0.5
 --- !u!23 &191802527
 MeshRenderer:
@@ -433,7 +433,7 @@ MonoBehaviour:
     m_ColorSpace: -1
     m_NumColorKeys: 4
     m_NumAlphaKeys: 2
-  _rules: B4678/S35678
+  _rules: B4,6-8/S3,5-8
   _randomStep: 0.5
 --- !u!23 &447419493
 MeshRenderer:
@@ -567,7 +567,7 @@ MonoBehaviour:
     m_ColorSpace: -1
     m_NumColorKeys: 3
     m_NumAlphaKeys: 2
-  _rules: B368/S245
+  _rules: B3,6,8/S2,4-5
   _randomStep: 0.6
 --- !u!23 &657216581
 MeshRenderer:
@@ -701,7 +701,7 @@ MonoBehaviour:
     m_ColorSpace: -1
     m_NumColorKeys: 3
     m_NumAlphaKeys: 2
-  _rules: B36/S23
+  _rules: B3,6/S2-3
   _randomStep: 0.1
 --- !u!23 &943412707
 MeshRenderer:
@@ -835,7 +835,7 @@ MonoBehaviour:
     m_ColorSpace: -1
     m_NumColorKeys: 3
     m_NumAlphaKeys: 2
-  _rules: B1/S0127
+  _rules: B1/S0-2,7
   _randomStep: 0.5
 --- !u!23 &1002569322
 MeshRenderer:
@@ -1300,7 +1300,7 @@ MonoBehaviour:
     m_ColorSpace: -1
     m_NumColorKeys: 4
     m_NumAlphaKeys: 2
-  _rules: B3/S23
+  _rules: B3/S2,3
   _randomStep: 0.5
 --- !u!1 &1526081892
 GameObject:
@@ -1369,7 +1369,7 @@ MonoBehaviour:
     m_ColorSpace: -1
     m_NumColorKeys: 3
     m_NumAlphaKeys: 2
-  _rules: B36/S125
+  _rules: B3,6/S1-2,5
   _randomStep: 0.569
 --- !u!23 &1526081894
 MeshRenderer:
@@ -1503,7 +1503,7 @@ MonoBehaviour:
     m_ColorSpace: -1
     m_NumColorKeys: 3
     m_NumAlphaKeys: 2
-  _rules: B35678/S5678
+  _rules: B3,5-8/S5-8
   _randomStep: 0.48
 --- !u!23 &1566017294
 MeshRenderer:
@@ -1637,7 +1637,7 @@ MonoBehaviour:
     m_ColorSpace: -1
     m_NumColorKeys: 5
     m_NumAlphaKeys: 2
-  _rules: B34/S34
+  _rules: B3-4/S3-4
   _randomStep: 0.1
 --- !u!23 &1602977724
 MeshRenderer:
@@ -1836,7 +1836,7 @@ MonoBehaviour:
     m_ColorSpace: -1
     m_NumColorKeys: 3
     m_NumAlphaKeys: 2
-  _rules: B3678/S34678
+  _rules: B3,6-8/S3-4,6-8
   _randomStep: 0.4
 --- !u!1 &1923221430
 GameObject:
@@ -1905,7 +1905,7 @@ MonoBehaviour:
     m_ColorSpace: -1
     m_NumColorKeys: 2
     m_NumAlphaKeys: 2
-  _rules: B3/S345
+  _rules: B3/S3-5
   _randomStep: 0.5
 --- !u!23 &1923221432
 MeshRenderer:
@@ -2039,7 +2039,7 @@ MonoBehaviour:
     m_ColorSpace: -1
     m_NumColorKeys: 2
     m_NumAlphaKeys: 2
-  _rules: B3/S012345678
+  _rules: B3/S0-8
   _randomStep: 0.012
 --- !u!23 &1928340240
 MeshRenderer:
@@ -2173,7 +2173,7 @@ MonoBehaviour:
     m_ColorSpace: -1
     m_NumColorKeys: 3
     m_NumAlphaKeys: 2
-  _rules: B1/S0123
+  _rules: B1/S0-3
   _randomStep: 0.5
 --- !u!23 &1995170761
 MeshRenderer:
@@ -2307,7 +2307,7 @@ MonoBehaviour:
     m_ColorSpace: -1
     m_NumColorKeys: 2
     m_NumAlphaKeys: 2
-  _rules: B1357/S1357
+  _rules: B1,3,5,7/S1,3,5,7
   _randomStep: 0.00001
 --- !u!23 &2072692457
 MeshRenderer:

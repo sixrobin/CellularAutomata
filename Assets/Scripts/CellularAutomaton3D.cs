@@ -56,7 +56,7 @@ namespace CellularAutomata
         private void Iterate()
         {
             this._gridBuffer = this._grid;
-            Vector2Int rules = RulesParser.Parse(this._rules);
+            Vector2Int rules = RulesParser.ParseRuleset(this._rules);
             
             for (int x = 0; x < this._resolution; ++x)
             {

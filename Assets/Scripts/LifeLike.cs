@@ -14,7 +14,7 @@ namespace CellularAutomata
         {
             base.Init();
 
-            Vector2Int rules = RulesParser.Parse(this._rules);
+            Vector2Int rules = RulesParser.ParseRuleset(this._rules);
             
             this._computeShader.SetInts("Rules", rules.x, rules.y);
 
