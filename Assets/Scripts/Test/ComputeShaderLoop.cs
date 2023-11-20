@@ -4,9 +4,10 @@ public class ComputeShaderLoop : MonoBehaviour
 {
     public struct Cube
     {
-        public const int BUFFER_SIZE = sizeof(float) * 4;
+        public const int BUFFER_SIZE = sizeof(float) * 7;
         
         public Vector3 Position;
+        public Vector3 Color;
         public float State;
     }
     
@@ -40,13 +41,21 @@ public class ComputeShaderLoop : MonoBehaviour
         this._cubesBuffer = null;
     }
 
-    private void Update()
+    private void Start()
     {
         this._computeShader.SetBuffer(0, "_Cubes", this._cubesBuffer);
-        this._computeShader.SetFloat("_Resolution", this._resolution);
         int groups = Mathf.CeilToInt(this._resolution / 8f);
         this._computeShader.Dispatch(0, groups, groups, groups);
+    }
+
+    private void Update()
+    {
+        this._computeShader.SetBuffer(1, "_Cubes", this._cubesBuffer);
+        this._computeShader.SetFloat("_Resolution", this._resolution);
+        int groups = Mathf.CeilToInt(this._resolution / 8f);
         
+        this._computeShader.Dispatch(1, groups, groups, groups);
+
         this._material.SetBuffer("_Cubes", this._cubesBuffer);
         this._material.SetFloat("_Step", 1f);
         this._material.SetFloat("_Resolution", this._resolution);

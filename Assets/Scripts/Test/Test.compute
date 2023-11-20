@@ -1,10 +1,12 @@
-#pragma kernel CSMain
+#pragma kernel Test
+#pragma kernel Init
 
 #include "Assets/Shaders/Random.cginc"
 
 struct Cube
 {
     float3 Position;
+    float3 Color;
     float State;
 };
 
@@ -12,12 +14,54 @@ RWTexture2D<float4> Result;
 RWStructuredBuffer<Cube> _Cubes;
 float _Resolution;
 
-[numthreads(8,8,8)]
-void CSMain(uint3 id : SV_DispatchThreadID)
+uint getUID(uint3 id)
 {
-    int display = step(random(id.xyz), 0.2);
+    return id.x + id.y * _Resolution + id.z * _Resolution * _Resolution;
+} 
+
+[numthreads(8,8,8)]
+void Test(uint3 id : SV_DispatchThreadID)
+{
+    int display = step(random(id.xyz), 0.5);
     
-    uint uid = id.x + id.y * _Resolution + id.z * _Resolution * _Resolution;
+    uint uid = getUID(id);
     _Cubes[uid].Position = float3(id.xyz);
     _Cubes[uid].State = display;
+}
+
+[numthreads(8,8,8)]
+void Init(uint3 id : SV_DispatchThreadID)
+{
+    int neighboursCount = 0;
+
+    for (int x = -1; x <= 1; ++x)
+    {
+        for (int y = -1; y <= 1; ++y)
+        {
+            for (int z = -1; z <= 1; ++z)
+            {
+                if (x == 0 && y == 0 && z == 0)
+                    continue;
+
+                uint3 offset = uint3(x,y,z);
+                uint3 neighbourID = id + offset;
+
+                if (neighbourID.x < 0 || neighbourID.x >= _Resolution
+                    || neighbourID.y < 0 || neighbourID.y >= _Resolution
+                    || neighbourID.z < 0 || neighbourID.z >= _Resolution)
+                {
+                    continue;
+                }
+                
+                uint neighbourUID = getUID(neighbourID);
+                Cube neighbour = _Cubes[neighbourUID];
+                neighboursCount += neighbour.State;
+            }
+        }
+    }
+
+    uint uid = getUID(id);
+
+    _Cubes[uid].Position = float3(id.xyz);
+    _Cubes[uid].Color = float3((neighboursCount / 26.0).xxx);
 }
