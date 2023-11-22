@@ -15,10 +15,10 @@ namespace CellularAutomata
             base.Init();
 
             Vector2Int rules = RulesParser.ParseRuleset(this._rules);
-            
             this._computeShader.SetInts("Rules", rules.x, rules.y);
 
             this._computeShader.SetFloat("InitRandomStep", this._randomStep);
+            
             this._computeShader.SetTexture(0, "Result", this._gridBuffer);
             this._computeShader.Dispatch(0, this.Resolution / 8, this.Resolution / 8, 1);
 

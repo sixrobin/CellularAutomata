@@ -18,6 +18,8 @@ RWTexture2D<float4> Result;
 RWStructuredBuffer<Cube> _CubesBuffer;
 RWStructuredBuffer<Cube> _Cubes;
 float _Resolution;
+float _InitRandomStep;
+int2 _Rules;
 
 int getUID(uint3 id)
 {
@@ -56,7 +58,7 @@ int getNeighboursCount(uint3 id)
 [numthreads(8,8,8)]
 void InitRandom(uint3 id : SV_DispatchThreadID)
 {
-    int display = step(random(id.xyz), 0.5);
+    int display = step(random(id.xyz), _InitRandomStep);
     
     uint uid = getUID(id);
     _Cubes[uid].Position = float3(id.xyz);
@@ -82,10 +84,19 @@ void ColorFromNeighbours(uint3 id : SV_DispatchThreadID)
 [numthreads(8,8,8)]
 void Next(uint3 id : SV_DispatchThreadID)
 {
-    if (getNeighboursCount(id) == 1)
+    int uid = getUID(id);
+    Cube cube = _Cubes[uid];
+    int neighbours = getNeighboursCount(id);
+
+    if (cube.State < 1) // Dead.
     {
-        int uid = getUID(id);
-        _CubesBuffer[uid].State = 1;
+        if ((neighbours & _Rules.x) != 0)
+            _CubesBuffer[uid].State = 1;
+    }
+    else // Alive.
+    {
+        if ((neighbours & _Rules.y) == 0 && _Rules.y > 0)
+            _CubesBuffer[uid].State = 0;
     }
 }
 
