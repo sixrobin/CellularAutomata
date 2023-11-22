@@ -262,8 +262,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _resolution: 32
-  _initRandomStep: 0.45
-  _rules: B1/S4
+  _initRandomStep: 0.226
+  _rules: B9-10,16,23-24/S0-2,4,6-11,13-17,21-26
 --- !u!4 &386382394
 Transform:
   m_ObjectHideFlags: 0

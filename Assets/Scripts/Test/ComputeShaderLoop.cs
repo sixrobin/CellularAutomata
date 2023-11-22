@@ -2,6 +2,10 @@ using UnityEngine;
 
 public class ComputeShaderLoop : MonoBehaviour
 {
+    private static readonly int RESOLUTION_ID = Shader.PropertyToID("_Resolution");
+    private static readonly int STEP_ID = Shader.PropertyToID("_Step");
+    private static readonly int CUBES_ID = Shader.PropertyToID("_Cubes");
+    
     public struct Cube
     {
         public const int BUFFER_SIZE = sizeof(float) * 7;
@@ -15,13 +19,27 @@ public class ComputeShaderLoop : MonoBehaviour
     private ComputeShader _computeShader;
     [SerializeField]
     private int _resolution = 8;
+    [SerializeField]
+    private float _updateTimeInterval = 1f;
 
     [SerializeField]
     private Material _material;
     [SerializeField]
     private Mesh _mesh;
     
+    private ComputeBuffer _cubes;
     private ComputeBuffer _cubesBuffer;
+    private float _timer;
+
+    [ContextMenu("Next")]
+    private void Next()
+    {
+        int groups = Mathf.CeilToInt(this._resolution / 8f);
+
+        this._computeShader.Dispatch(4, groups, groups, groups);
+        this._computeShader.Dispatch(3, groups, groups, groups);
+        this._computeShader.Dispatch(5, groups, groups, groups);
+    }
     
     private void OnEnable()
     {
@@ -32,35 +50,48 @@ public class ComputeShaderLoop : MonoBehaviour
                 for (int z = 0; z < this._resolution; ++z)
                     cubes[x + y * this._resolution + z * this._resolution * this._resolution] = new Cube();
 
+        this._cubes = new ComputeBuffer(cubes.Length, Cube.BUFFER_SIZE);
         this._cubesBuffer = new ComputeBuffer(cubes.Length, Cube.BUFFER_SIZE);
+        
+        this._computeShader.SetBuffer(3, "_Cubes", this._cubes);
+        this._computeShader.SetBuffer(3, "_CubesBuffer", this._cubesBuffer);
+        this._computeShader.SetBuffer(4, "_Cubes", this._cubes);
+        this._computeShader.SetBuffer(4, "_CubesBuffer", this._cubesBuffer);
+        this._computeShader.SetBuffer(5, "_Cubes", this._cubes);
+        this._computeShader.SetBuffer(5, "_CubesBuffer", this._cubesBuffer);
     }
 
     private void OnDisable()
     {
+        this._cubes.Release();
+        this._cubes = null;
+        
         this._cubesBuffer.Release();
         this._cubesBuffer = null;
     }
 
     private void Start()
     {
-        this._computeShader.SetBuffer(0, "_Cubes", this._cubesBuffer);
+        this._computeShader.SetFloat("_Resolution", this._resolution);
+        this._computeShader.SetBuffer(1, "_Cubes", this._cubes);
+
         int groups = Mathf.CeilToInt(this._resolution / 8f);
-        this._computeShader.Dispatch(0, groups, groups, groups);
+        this._computeShader.Dispatch(1, groups, groups, groups);
+        
+        this._material.SetBuffer(CUBES_ID, this._cubes);
+        this._material.SetFloat(RESOLUTION_ID, this._resolution);
     }
 
     private void Update()
     {
-        this._computeShader.SetBuffer(1, "_Cubes", this._cubesBuffer);
-        this._computeShader.SetFloat("_Resolution", this._resolution);
-        int groups = Mathf.CeilToInt(this._resolution / 8f);
-        
-        this._computeShader.Dispatch(1, groups, groups, groups);
-
-        this._material.SetBuffer("_Cubes", this._cubesBuffer);
-        this._material.SetFloat("_Step", 1f);
-        this._material.SetFloat("_Resolution", this._resolution);
+        this._timer += Time.deltaTime;
+        if (this._timer > this._updateTimeInterval)
+        {
+            this._timer = 0f;
+            this.Next();
+        }
         
         Bounds bounds = new(Vector3.zero, Vector3.one * this._resolution);
-        Graphics.DrawMeshInstancedProcedural(this._mesh, 0, this._material, bounds, this._cubesBuffer.count);
+        Graphics.DrawMeshInstancedProcedural(this._mesh, 0, this._material, bounds, this._cubes.count);
     }
 }

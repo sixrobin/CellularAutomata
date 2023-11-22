@@ -27,7 +27,6 @@ Shader "Graph/Point Surface GPU"
 
 		float _Smoothness;
 		float _Resolution;
-		float _Step;
 		float _ColorFromWorldPosition;
 
 		void ConfigureProcedural()
@@ -36,7 +35,7 @@ Shader "Graph/Point Surface GPU"
 			Cube cube = _Cubes[unity_InstanceID];
 			unity_ObjectToWorld = 0;
 			unity_ObjectToWorld._m03_m13_m23_m33 = float4(cube.Position, 1);
-			unity_ObjectToWorld._m00_m11_m22 = _Step;
+			unity_ObjectToWorld._m00_m11_m22 = 1;
 			#endif
 		}
 

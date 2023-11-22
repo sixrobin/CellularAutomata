@@ -1,5 +1,9 @@
-#pragma kernel Test
-#pragma kernel Init
+#pragma kernel InitRandom
+#pragma kernel InitCenterCell
+#pragma kernel ColorFromNeighbours
+#pragma kernel Next
+#pragma kernel PrepareBuffer
+#pragma kernel ApplyBuffer
 
 #include "Assets/Shaders/Random.cginc"
 
@@ -11,26 +15,16 @@ struct Cube
 };
 
 RWTexture2D<float4> Result;
+RWStructuredBuffer<Cube> _CubesBuffer;
 RWStructuredBuffer<Cube> _Cubes;
 float _Resolution;
 
-uint getUID(uint3 id)
+int getUID(uint3 id)
 {
     return id.x + id.y * _Resolution + id.z * _Resolution * _Resolution;
 } 
 
-[numthreads(8,8,8)]
-void Test(uint3 id : SV_DispatchThreadID)
-{
-    int display = step(random(id.xyz), 0.5);
-    
-    uint uid = getUID(id);
-    _Cubes[uid].Position = float3(id.xyz);
-    _Cubes[uid].State = display;
-}
-
-[numthreads(8,8,8)]
-void Init(uint3 id : SV_DispatchThreadID)
+int getNeighboursCount(uint3 id)
 {
     int neighboursCount = 0;
 
@@ -43,15 +37,11 @@ void Init(uint3 id : SV_DispatchThreadID)
                 if (x == 0 && y == 0 && z == 0)
                     continue;
 
-                uint3 offset = uint3(x,y,z);
+                int3 offset = int3(x,y,z);
                 uint3 neighbourID = id + offset;
 
-                if (neighbourID.x < 0 || neighbourID.x >= _Resolution
-                    || neighbourID.y < 0 || neighbourID.y >= _Resolution
-                    || neighbourID.z < 0 || neighbourID.z >= _Resolution)
-                {
+                if (neighbourID.x >= _Resolution || neighbourID.y >= _Resolution || neighbourID.z >= _Resolution)
                     continue;
-                }
                 
                 uint neighbourUID = getUID(neighbourID);
                 Cube neighbour = _Cubes[neighbourUID];
@@ -60,8 +50,55 @@ void Init(uint3 id : SV_DispatchThreadID)
         }
     }
 
-    uint uid = getUID(id);
+    return neighboursCount;
+}
 
+[numthreads(8,8,8)]
+void InitRandom(uint3 id : SV_DispatchThreadID)
+{
+    int display = step(random(id.xyz), 0.5);
+    
+    uint uid = getUID(id);
     _Cubes[uid].Position = float3(id.xyz);
-    _Cubes[uid].Color = float3((neighboursCount / 26.0).xxx);
+    _Cubes[uid].State = display;
+}
+
+[numthreads(8,8,8)]
+void InitCenterCell(uint3 id : SV_DispatchThreadID)
+{
+    uint uid = getUID(id);
+    _Cubes[uid].Position = float3(id.xyz);
+    _Cubes[uid].State = id.x == _Resolution / 2 && id.y == _Resolution / 2 && id.z == _Resolution / 2 ? 1 : 0;
+}
+
+[numthreads(8,8,8)]
+void ColorFromNeighbours(uint3 id : SV_DispatchThreadID)
+{
+    uint uid = getUID(id);
+    _Cubes[uid].Position = float3(id.xyz);
+    _Cubes[uid].Color = float3((getNeighboursCount(id) / 26.0).xxx);
+}
+
+[numthreads(8,8,8)]
+void Next(uint3 id : SV_DispatchThreadID)
+{
+    if (getNeighboursCount(id) == 1)
+    {
+        int uid = getUID(id);
+        _CubesBuffer[uid].State = 1;
+    }
+}
+
+[numthreads(8,8,8)]
+void PrepareBuffer(uint3 id : SV_DispatchThreadID)
+{
+    int uid = getUID(id);
+    _CubesBuffer[uid] = _Cubes[uid];
+}
+
+[numthreads(8,8,8)]
+void ApplyBuffer(uint3 id : SV_DispatchThreadID)
+{
+    int uid = getUID(id);
+    _Cubes[uid] = _CubesBuffer[uid];
 }
