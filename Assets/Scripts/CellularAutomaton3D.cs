@@ -56,7 +56,7 @@ namespace CellularAutomata
         private void Iterate()
         {
             this._gridBuffer = this._grid;
-            Vector2Int rules = RulesParser.ParseRuleset(this._rules);
+            (int birthRule, int surviveRule, _, _) = RulesParser.ParseRuleset(this._rules);
             
             for (int x = 0; x < this._resolution; ++x)
             {
@@ -71,9 +71,9 @@ namespace CellularAutomata
                         int neighbours = (int)Mathf.Pow(2, neighboursCount);
 
                         if (this._gridBuffer[x, y, z] == 1)
-                            this._grid[x, y, z] = (neighbours & rules.x) != 0 ? 1 : 0;
+                            this._grid[x, y, z] = (neighbours & surviveRule) != 0 ? 1 : 0;
                         else
-                            this._grid[x, y, z] = (neighbours & rules.y) != 0 ? 1 : 0;
+                            this._grid[x, y, z] = (neighbours & birthRule) != 0 ? 1 : 0;
                     }
                 }
             }

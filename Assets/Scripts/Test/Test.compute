@@ -19,14 +19,14 @@ RWStructuredBuffer<Cube> _CubesBuffer;
 RWStructuredBuffer<Cube> _Cubes;
 float _Resolution;
 float _InitRandomStep;
-int2 _Rules;
+int4 _Rules;
 
 int getUID(uint3 id)
 {
     return id.x + id.y * _Resolution + id.z * _Resolution * _Resolution;
 } 
 
-int getNeighboursCount(uint3 id)
+int getMooreNeighboursCount(uint3 id)
 {
     int neighboursCount = 0;
 
@@ -55,6 +55,70 @@ int getNeighboursCount(uint3 id)
     return neighboursCount;
 }
 
+int getNeumannNeighboursCount(uint3 id)
+{
+    int neighboursCount = 0;
+
+    // Negative X.
+    int3 offset = int3(-1,0,0);
+    uint3 neighbourID = id + offset;
+    if (neighbourID.x <= _Resolution)
+    {
+        uint neighbourUID = getUID(neighbourID);
+        Cube neighbour = _Cubes[neighbourUID];
+        neighboursCount += neighbour.State;
+    }
+    // Positive X.
+    offset = int3(1,0,0);
+    neighbourID = id + offset;
+    if (neighbourID.x <= _Resolution)
+    {
+        uint neighbourUID = getUID(neighbourID);
+        Cube neighbour = _Cubes[neighbourUID];
+        neighboursCount += neighbour.State;
+    }
+
+    // Negative Y.
+    offset = int3(0,-1,0);
+    neighbourID = id + offset;
+    if (neighbourID.y <= _Resolution)
+    {
+        uint neighbourUID = getUID(neighbourID);
+        Cube neighbour = _Cubes[neighbourUID];
+        neighboursCount += neighbour.State;
+    }
+    // Positive Y.
+    offset = int3(0,1,0);
+    neighbourID = id + offset;
+    if (neighbourID.y <= _Resolution)
+    {
+        uint neighbourUID = getUID(neighbourID);
+        Cube neighbour = _Cubes[neighbourUID];
+        neighboursCount += neighbour.State;
+    }
+
+    // Negative Z.
+    offset = int3(0,0,-1);
+    neighbourID = id + offset;
+    if (neighbourID.z <= _Resolution)
+    {
+        uint neighbourUID = getUID(neighbourID);
+        Cube neighbour = _Cubes[neighbourUID];
+        neighboursCount += neighbour.State;
+    }
+    // Positive Z.
+    offset = int3(0,0,1);
+    neighbourID = id + offset;
+    if (neighbourID.z <= _Resolution)
+    {
+        uint neighbourUID = getUID(neighbourID);
+        Cube neighbour = _Cubes[neighbourUID];
+        neighboursCount += neighbour.State;
+    }
+
+    return neighboursCount;
+}
+
 [numthreads(8,8,8)]
 void InitRandom(uint3 id : SV_DispatchThreadID)
 {
@@ -78,7 +142,7 @@ void ColorFromNeighbours(uint3 id : SV_DispatchThreadID)
 {
     uint uid = getUID(id);
     _Cubes[uid].Position = float3(id.xyz);
-    _Cubes[uid].Color = float3((getNeighboursCount(id) / 26.0).xxx);
+    _Cubes[uid].Color = float3((_Rules.w == 0 ? getMooreNeighboursCount(id) : getNeumannNeighboursCount(id) / 26.0).xxx);
 }
 
 [numthreads(8,8,8)]
@@ -86,16 +150,16 @@ void Next(uint3 id : SV_DispatchThreadID)
 {
     int uid = getUID(id);
     Cube cube = _Cubes[uid];
-    int neighbours = getNeighboursCount(id);
+    int neighbours = _Rules.w == 0 ? getMooreNeighboursCount(id) : getNeumannNeighboursCount(id);
 
-    if (cube.State < 1) // Dead.
+    if (cube.State == 0) // Dead.
     {
-        if ((neighbours & _Rules.x) != 0)
+        if ((neighbours & _Rules.y) != 0 && _Rules.y > 0)
             _CubesBuffer[uid].State = 1;
     }
     else // Alive.
     {
-        if ((neighbours & _Rules.y) == 0 && _Rules.y > 0)
+        if ((neighbours & _Rules.x) == 0 && _Rules.x > 0)
             _CubesBuffer[uid].State = 0;
     }
 }

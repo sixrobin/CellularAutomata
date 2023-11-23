@@ -19,6 +19,7 @@ public class ComputeShaderLoop : MonoBehaviour
     {
         CENTER_CELL,
         RANDOM_STEP,
+        // TODO: Add RandomStep in radius
     }
     
     [SerializeField]
@@ -67,8 +68,8 @@ public class ComputeShaderLoop : MonoBehaviour
         
         this._computeShader.SetFloat("_Resolution", this._resolution);
         this._computeShader.SetFloat("_InitRandomStep", this._initRandomStep);
-        Vector2Int rules = CellularAutomata.RulesParser.ParseRuleset(this._rules);
-        this._computeShader.SetInts("_Rules", rules.x, rules.y);
+        (int surviveRule, int birthRule, int cellStatesRule, int neighbourhoodRule) = CellularAutomata.RulesParser.ParseRuleset(this._rules, log: true);
+        this._computeShader.SetInts("_Rules", surviveRule, birthRule, cellStatesRule, neighbourhoodRule);
         
         this._computeShader.SetBuffer(0, "_Cubes", this._cubes);
         this._computeShader.SetBuffer(1, "_Cubes", this._cubes);

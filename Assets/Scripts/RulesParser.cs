@@ -4,6 +4,7 @@ namespace CellularAutomata
 
     public static class RulesParser
     {
+        // TODO: Rewrite this summary with new ruleset format.
         /// <summary>
         /// Parses the birth and survive rules of a cellular automaton.
         /// The rule uses the format B[..]/S[..] where [..] is the valid neighbours counts.
@@ -13,8 +14,9 @@ namespace CellularAutomata
         /// To check a cell, simply count its neighbours, convert it using the same 2^n formula and compare it to the rule using a AND operator.
         /// </summary>
         /// <param name="rules">Ruleset string (B[..]/S[..] where [..] is the valid neighbours counts).</param>
-        /// <returns>Rules as a Vector2Int format.</returns>
-        public static Vector2Int ParseRuleset(string rules)
+        /// <param name="log">Logs the parsed ruleset to Unity console.</param>
+        /// <returns>Rules as a 4 ints Tuple format.</returns>
+        public static (int, int, int, int) ParseRuleset(string rules, bool log = false)
         {
             try
             {
@@ -22,29 +24,36 @@ namespace CellularAutomata
 
                 // Split birth and survive rules.
                 string[] rulesSplit = rules.Split('/');
-                string birthRules = rulesSplit[0];
-                string surviveRules = rulesSplit[1];
-                // TODO: Handle neighbourhood letter (M=Moore, N=Neumann).
 
-                // Convert both rules.
-                return new Vector2Int(ParseNeighboursRule(birthRules), ParseNeighboursRule(surviveRules));
+                int surviveRule = ParseNeighboursRule(rulesSplit[0]);
+                int birthRule = ParseNeighboursRule(rulesSplit[1]);
+                int cellStatesRule = rulesSplit.Length >= 3 ? ParseCellStatesRule(rulesSplit[2]) : 2;
+                int neighbourhoodRule = rulesSplit.Length >= 4 ? ParseNeighbourhoodRule(rulesSplit[3]) : 0;
+
+                if (log)
+                {
+                    Debug.Log($"Survive: {rulesSplit[0]} ({surviveRule})"
+                              + $"\nBirth: {rulesSplit[1]} ({birthRule})"
+                              + $"\nStates: {cellStatesRule}"
+                              + $"\nNeighbourhood: {NeighbourhoodToString(neighbourhoodRule)}");
+                }
+                
+                return (surviveRule, birthRule, cellStatesRule, neighbourhoodRule);
             }
             catch (System.Exception e)
             {
                 Debug.LogError($"Could not parse rules {rules}! Make sure rules format is B[x]/S[x].\nException message: {e}");
-                return Vector2Int.zero;
+                return (0, 0, 0, 0);
             }
         }
 
         private static int ParseNeighboursRule(string rule)
         {
-            int ruleToInt = 0;
-            rule = rule.Remove(0, 1); // Remove letter prefix.
-
             if (rule.Length == 0)
                 return 0;
             
             string[] ruleChains = rule.Split(',');
+            int ruleToInt = 0;
 
             foreach (string ruleChain in ruleChains)
             {
@@ -69,6 +78,31 @@ namespace CellularAutomata
             }
 
             return ruleToInt;
+        }
+
+        private static int ParseCellStatesRule(string rule)
+        {
+            return int.Parse(rule);
+        }
+
+        private static int ParseNeighbourhoodRule(string rule)
+        {
+            return rule.ToUpper() switch
+            {
+                "M" => 0,
+                "N" => 1,
+                _ => 0,
+            };
+        }
+
+        private static string NeighbourhoodToString(int neighbourhood)
+        {
+            return neighbourhood switch
+            {
+                0 => "M",
+                1 => "N",
+                _ => "M",
+            };
         }
     }
 }

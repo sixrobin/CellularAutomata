@@ -14,8 +14,8 @@ namespace CellularAutomata
         {
             base.Init();
 
-            Vector2Int rules = RulesParser.ParseRuleset(this._rules);
-            this._computeShader.SetInts("Rules", rules.x, rules.y);
+            (int surviveRule, int birthRule, _, _) = RulesParser.ParseRuleset(this._rules);
+            this._computeShader.SetInts("Rules", surviveRule, birthRule);
 
             this._computeShader.SetFloat("InitRandomStep", this._randomStep);
             
