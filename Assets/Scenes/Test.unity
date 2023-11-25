@@ -208,8 +208,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 14149963}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.41227573, y: -0.21463358, z: 0.100754656, w: 0.8796645}
-  m_LocalPosition: {x: 2.7034833, y: 4.29655, z: -3.7114458}
+  m_LocalRotation: {x: 0.3363917, y: -0.275047, z: 0.105568215, w: 0.89445245}
+  m_LocalPosition: {x: 85.82646, y: 109.160416, z: -43.180058}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -333,17 +333,18 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1433379942}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f5baf594d7a35194c892daa9a0e6867a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   _computeShader: {fileID: 7200000, guid: 7ad49549b2294ab47a2f022cbfe08d90, type: 3}
-  _resolution: 64
-  _rules: 0/0/2/N
-  _initializationMethod: 0
-  _initRandomStep: 0.693
-  _updateTimeInterval: 0.018
+  _resolution: 96
+  _rules: 4-7/6-8/10/M
+  _initializationMethod: -1
+  _initCenterWidth: 8
+  _initRandomStep: 0.82
+  _updateTimeInterval: 0.05
   _material: {fileID: 2100000, guid: f800254dfb95d7c46acaa05c11f6d6a4, type: 2}
   _mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
 --- !u!4 &1433379944

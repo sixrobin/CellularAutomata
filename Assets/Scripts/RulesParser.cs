@@ -50,7 +50,7 @@ namespace CellularAutomata
         private static int ParseNeighboursRule(string rule)
         {
             if (rule.Length == 0)
-                return 0;
+                return -1;
             
             string[] ruleChains = rule.Split(',');
             int ruleToInt = 0;
@@ -99,9 +99,9 @@ namespace CellularAutomata
         {
             return neighbourhood switch
             {
-                0 => "M",
-                1 => "N",
-                _ => "M",
+                0 => "Moore",
+                1 => "Neumann",
+                _ => "Moore",
             };
         }
     }

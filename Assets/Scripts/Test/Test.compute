@@ -1,5 +1,4 @@
-#pragma kernel InitRandom
-#pragma kernel InitCenterCell
+#pragma kernel Init
 #pragma kernel ColorFromNeighbours
 #pragma kernel Next
 #pragma kernel PrepareBuffer
@@ -11,7 +10,7 @@ struct Cube
 {
     float3 Position;
     float3 Color;
-    float State;
+    int State;
 };
 
 RWTexture2D<float4> Result;
@@ -19,6 +18,7 @@ RWStructuredBuffer<Cube> _CubesBuffer;
 RWStructuredBuffer<Cube> _Cubes;
 float _Resolution;
 float _InitRandomStep;
+int _InitCenterWidth;
 int4 _Rules;
 
 int getUID(uint3 id)
@@ -47,7 +47,7 @@ int getMooreNeighboursCount(uint3 id)
                 
                 uint neighbourUID = getUID(neighbourID);
                 Cube neighbour = _Cubes[neighbourUID];
-                neighboursCount += neighbour.State;
+                neighboursCount += neighbour.State == _Rules.z - 1 ? 1 : 0;
             }
         }
     }
@@ -66,7 +66,7 @@ int getNeumannNeighboursCount(uint3 id)
     {
         uint neighbourUID = getUID(neighbourID);
         Cube neighbour = _Cubes[neighbourUID];
-        neighboursCount += neighbour.State;
+        neighboursCount += neighbour.State == _Rules.z - 1 ? 1 : 0;
     }
     // Positive X.
     offset = int3(1,0,0);
@@ -75,7 +75,7 @@ int getNeumannNeighboursCount(uint3 id)
     {
         uint neighbourUID = getUID(neighbourID);
         Cube neighbour = _Cubes[neighbourUID];
-        neighboursCount += neighbour.State;
+        neighboursCount += neighbour.State == _Rules.z - 1 ? 1 : 0;
     }
 
     // Negative Y.
@@ -85,7 +85,7 @@ int getNeumannNeighboursCount(uint3 id)
     {
         uint neighbourUID = getUID(neighbourID);
         Cube neighbour = _Cubes[neighbourUID];
-        neighboursCount += neighbour.State;
+        neighboursCount += neighbour.State == _Rules.z - 1 ? 1 : 0;
     }
     // Positive Y.
     offset = int3(0,1,0);
@@ -94,7 +94,7 @@ int getNeumannNeighboursCount(uint3 id)
     {
         uint neighbourUID = getUID(neighbourID);
         Cube neighbour = _Cubes[neighbourUID];
-        neighboursCount += neighbour.State;
+        neighboursCount += neighbour.State == _Rules.z - 1 ? 1 : 0;
     }
 
     // Negative Z.
@@ -104,7 +104,7 @@ int getNeumannNeighboursCount(uint3 id)
     {
         uint neighbourUID = getUID(neighbourID);
         Cube neighbour = _Cubes[neighbourUID];
-        neighboursCount += neighbour.State;
+        neighboursCount += neighbour.State == _Rules.z - 1 ? 1 : 0;
     }
     // Positive Z.
     offset = int3(0,0,1);
@@ -113,28 +113,36 @@ int getNeumannNeighboursCount(uint3 id)
     {
         uint neighbourUID = getUID(neighbourID);
         Cube neighbour = _Cubes[neighbourUID];
-        neighboursCount += neighbour.State;
+        neighboursCount += neighbour.State == _Rules.z - 1 ? 1 : 0;
     }
 
     return neighboursCount;
 }
 
 [numthreads(8,8,8)]
-void InitRandom(uint3 id : SV_DispatchThreadID)
+void Init(uint3 id : SV_DispatchThreadID)
 {
+    float halfResolution = _Resolution / 2;
+    float halfInitCenterWidth = ceil(_InitCenterWidth / 2.0);
     int display = step(random(id.xyz), _InitRandomStep);
-    
-    uint uid = getUID(id);
-    _Cubes[uid].Position = float3(id.xyz);
-    _Cubes[uid].State = display;
-}
 
-[numthreads(8,8,8)]
-void InitCenterCell(uint3 id : SV_DispatchThreadID)
-{
     uint uid = getUID(id);
     _Cubes[uid].Position = float3(id.xyz);
-    _Cubes[uid].State = id.x == _Resolution / 2 && id.y == _Resolution / 2 && id.z == _Resolution / 2 ? 1 : 0;
+
+    if (_InitCenterWidth == 1)
+    {
+        _Cubes[uid].State = display == 1 && id.x == halfResolution && id.y == halfResolution && id.z == halfResolution ? _Rules.z - 1 : 0;
+    }
+    else
+    {
+        _Cubes[uid].State = display == 1
+                            && id.x > halfResolution - halfInitCenterWidth
+                            && id.x < halfResolution + halfInitCenterWidth
+                            && id.y > halfResolution - halfInitCenterWidth
+                            && id.y < halfResolution + halfInitCenterWidth
+                            && id.z > halfResolution - halfInitCenterWidth
+                            && id.z < halfResolution + halfInitCenterWidth ? _Rules.z - 1 : 0;
+    }
 }
 
 [numthreads(8,8,8)]
@@ -142,7 +150,8 @@ void ColorFromNeighbours(uint3 id : SV_DispatchThreadID)
 {
     uint uid = getUID(id);
     _Cubes[uid].Position = float3(id.xyz);
-    _Cubes[uid].Color = float3((_Rules.w == 0 ? getMooreNeighboursCount(id) : getNeumannNeighboursCount(id) / 26.0).xxx);
+    int neighboursCount = _Rules.w == 0 ? getMooreNeighboursCount(id) : getNeumannNeighboursCount(id);
+    _Cubes[uid].Color = float3((neighboursCount / 26.0).xxx);
 }
 
 [numthreads(8,8,8)]
@@ -151,16 +160,21 @@ void Next(uint3 id : SV_DispatchThreadID)
     int uid = getUID(id);
     Cube cube = _Cubes[uid];
     int neighbours = _Rules.w == 0 ? getMooreNeighboursCount(id) : getNeumannNeighboursCount(id);
+    neighbours = pow(2, neighbours);
 
     if (cube.State == 0) // Dead.
     {
-        if ((neighbours & _Rules.y) != 0 && _Rules.y > 0)
-            _CubesBuffer[uid].State = 1;
+        if ((neighbours & _Rules.y) != 0 && _Rules.y > -1)
+            _CubesBuffer[uid].State = _Rules.z - 1;
     }
-    else // Alive.
+    else if (cube.State == _Rules.z - 1) // Alive
     {
-        if ((neighbours & _Rules.x) == 0 && _Rules.x > 0)
-            _CubesBuffer[uid].State = 0;
+        if ((neighbours & _Rules.x) == 0 && _Rules.x > -1)
+            _CubesBuffer[uid].State--;
+    }
+    else // Dying.
+    {
+        _CubesBuffer[uid].State--;
     }
 }
 

@@ -3,6 +3,7 @@ Shader "Graph/Point Surface GPU"
 	Properties
 	{
 		_Smoothness ("Smoothness", Range(0, 1)) = 0.5
+		[MaterialToggle] _ColorFromState ("Color from State", Float) = 0
 		[MaterialToggle] _ColorFromWorldPosition ("Color from World Position", Float) = 0
 	}
 	
@@ -18,7 +19,7 @@ Shader "Graph/Point Surface GPU"
 		{
 		    float3 Position;
 			float3 Color;
-		    float State;
+		    int State;
 		};
 		
 		#if defined(UNITY_PROCEDURAL_INSTANCING_ENABLED)
@@ -27,6 +28,9 @@ Shader "Graph/Point Surface GPU"
 
 		float _Smoothness;
 		float _Resolution;
+		float4 _Rules;
+
+		float _ColorFromState;
 		float _ColorFromWorldPosition;
 
 		void ConfigureProcedural()
@@ -57,14 +61,19 @@ Shader "Graph/Point Surface GPU"
 		void surf(Input input, inout SurfaceOutputStandard o)
 		{
 			#if defined(UNITY_PROCEDURAL_INSTANCING_ENABLED)
-			Cube cube = _Cubes[unity_InstanceID];
-			
-			if (cube.State == 0)
-				discard;
+				Cube cube = _Cubes[unity_InstanceID];
+				
+				if (cube.State == 0)
+					discard;
 
-			o.Albedo = lerp(cube.Color, input.worldPos / _Resolution, _ColorFromWorldPosition);
+				if (_ColorFromWorldPosition == 1)
+					o.Albedo = input.worldPos / _Resolution;
+				else if (_ColorFromState == 1)
+					o.Albedo = lerp(float3(1,0,0.5), float3(.3,.3,1), cube.State / (_Rules.z - 1));
+				else
+					o.Albedo = cube.Color;
 			#else
-			o.Albedo = input.worldPos;
+				o.Albedo = input.worldPos;
 			#endif
 			
 			o.Smoothness = _Smoothness;
