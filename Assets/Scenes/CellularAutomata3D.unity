@@ -338,9 +338,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f5baf594d7a35194c892daa9a0e6867a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _settings: {fileID: 11400000, guid: 9996e1781695f8f42863b15dd52325fe, type: 2}
   _computeShader: {fileID: 7200000, guid: d619fafc81c34804ab94304664726192, type: 3}
   _resolution: 128
   _rules: 4/4/5/M
+  _initializationMethod: 2
+  _initRandomStep: 0.13
+  _initCenterWidth: 32
   _iterationDelay: 0
   _gradient:
     serializedVersion: 2
@@ -372,9 +376,6 @@ MonoBehaviour:
     m_ColorSpace: -1
     m_NumColorKeys: 4
     m_NumAlphaKeys: 2
-  _initializationMethod: 2
-  _initCenterWidth: 32
-  _initRandomStep: 0.13
   _material: {fileID: 2100000, guid: f800254dfb95d7c46acaa05c11f6d6a4, type: 2}
   _mesh: {fileID: 4300000, guid: 386ab461dc1f6d947a57774705efdfa4, type: 2}
 --- !u!4 &1433379944

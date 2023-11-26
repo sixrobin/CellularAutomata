@@ -9,15 +9,16 @@ namespace CellularAutomata
         private const string KERNEL_NAME_NEXT = "Next";
         private const string KERNEL_NAME_APPLY_BUFFER = "ApplyBuffer";
         
-        private const string RESOLUTION_ID = "_Resolution";
         protected const string RULES_ID = "_Rules";
-
+        private const string RESOLUTION_ID = "_Resolution";
         private const string INIT_CENTER_WIDTH_ID = "_InitCenterWidth";
-        protected const string INIT_RANDOM_STEP_ID = "_InitRandomStep";
+        private const string INIT_RANDOM_STEP_ID = "_InitRandomStep";
 
         protected static readonly int RESOLUTION_SHADER_ID = Shader.PropertyToID(RESOLUTION_ID);
         private static readonly int RAMP_SHADER_ID = Shader.PropertyToID("_Ramp");
         
+        [SerializeField]
+        protected CellularAutomatonSettings _settings;
         [SerializeField]
         protected ComputeShader _computeShader;
         [SerializeField]
@@ -45,6 +46,12 @@ namespace CellularAutomata
 
         protected int Resolution => (int)this._resolution;
 
+        [ContextMenu("oui")]
+        void Oui()
+        {
+            _settings.Set(this._resolution, this._rules, this._initializationMethod, this._initRandomStep, this._initCenterWidth, this._iterationDelay, this._gradient);
+        }
+        
         protected virtual void Init()
         {
             this._initKernelIndex = this._computeShader.FindKernel(KERNEL_NAME_INIT);
