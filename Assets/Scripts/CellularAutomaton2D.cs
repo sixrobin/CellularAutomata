@@ -3,32 +3,26 @@ namespace CellularAutomata
     using UnityEngine;
 
     [DisallowMultipleComponent]
-    public abstract class CellularAutomaton : MonoBehaviour
+    public abstract class CellularAutomaton2D : MonoBehaviour
     {
         private static readonly int MAIN_TEX_SHADER_ID = Shader.PropertyToID("_MainTex");
         private static readonly int RAMP_SHADER_ID = Shader.PropertyToID("_Ramp");
         
         [SerializeField]
         protected ComputeShader _computeShader;
-
         [SerializeField]
         private Renderer _renderer;
-
         [SerializeField]
         private Resolution _resolution = CellularAutomata.Resolution._128;
-
         [SerializeField]
         private TextureWrapMode _wrapMode = TextureWrapMode.Repeat;
-
         [SerializeField, Min(0f)]
         private float _iterationDelay = 0.01f;
-
         [SerializeField, Range(0.001f, 0.1f)]
         private float _decayStep = 0.1f;
-
         [SerializeField]
-        private Gradient _gradient;
-
+        private Gradient _decayGradient;
+        
         protected RenderTexture _grid;
         protected RenderTexture _gridBuffer;
         private float _timer;
@@ -55,13 +49,11 @@ namespace CellularAutomata
             this._grid.Create();
             this._gridBuffer.Create();
 
-            // Create a compute shader copy so that every instance can have its own parameters.
-            this._computeShader = Instantiate(this._computeShader);
-
+            this._computeShader = Instantiate(this._computeShader); // Create a compute shader copy so that every instance can have its own parameters.
             this._computeShader.SetFloat("Resolution", this.Resolution);
 
             this.InitRampTexture();
-
+            this._renderer.material.SetTexture(RAMP_SHADER_ID, this._ramp);
             this._renderer.material.SetTexture(MAIN_TEX_SHADER_ID, this._grid);
         }
 
@@ -86,10 +78,9 @@ namespace CellularAutomata
             };
 
             for (int x = 0; x < this._ramp.width; ++x)
-                this._ramp.SetPixel(x, 0, this._gradient.Evaluate(x / (float)this._ramp.width));
+                this._ramp.SetPixel(x, 0, this._decayGradient.Evaluate(x / (float)this._ramp.width));
 
             this._ramp.Apply();
-            this._renderer.material.SetTexture(RAMP_SHADER_ID, this._ramp);
         }
 
         #region UNITY METHODS

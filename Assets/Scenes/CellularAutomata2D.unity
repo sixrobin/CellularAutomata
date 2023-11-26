@@ -250,7 +250,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &191802526
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -269,7 +269,7 @@ MonoBehaviour:
   _wrapMode: 0
   _iterationDelay: 0.05
   _decayStep: 0.1
-  _gradient:
+  _decayGradient:
     serializedVersion: 2
     key0: {r: 1, g: 1, b: 1, a: 1}
     key1: {r: 0.03773582, g: 0.03773582, b: 0.03773582, a: 1}
@@ -384,7 +384,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &447419492
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -403,7 +403,7 @@ MonoBehaviour:
   _wrapMode: 0
   _iterationDelay: 0.02
   _decayStep: 0.005
-  _gradient:
+  _decayGradient:
     serializedVersion: 2
     key0: {r: 0.8349056, g: 1, b: 0.9331761, a: 1}
     key1: {r: 0.3066038, g: 0.7653829, b: 1, a: 1}
@@ -518,7 +518,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &657216580
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -537,7 +537,7 @@ MonoBehaviour:
   _wrapMode: 0
   _iterationDelay: 0.02
   _decayStep: 0.01
-  _gradient:
+  _decayGradient:
     serializedVersion: 2
     key0: {r: 1, g: 1, b: 1, a: 1}
     key1: {r: 0.64437103, g: 0.9137255, b: 0.18431371, a: 1}
@@ -652,7 +652,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &943412706
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -671,7 +671,7 @@ MonoBehaviour:
   _wrapMode: 0
   _iterationDelay: 0.02
   _decayStep: 0.005
-  _gradient:
+  _decayGradient:
     serializedVersion: 2
     key0: {r: 1, g: 1, b: 1, a: 1}
     key1: {r: 0.8392157, g: 0.07450981, b: 0.32474998, a: 1}
@@ -786,7 +786,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1002569321
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -805,7 +805,7 @@ MonoBehaviour:
   _wrapMode: 0
   _iterationDelay: 0
   _decayStep: 0.1
-  _gradient:
+  _decayGradient:
     serializedVersion: 2
     key0: {r: 1, g: 1, b: 1, a: 1}
     key1: {r: 0.28454673, g: 0.9150943, b: 0.18560876, a: 1}
@@ -920,7 +920,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!23 &1015046487
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -1004,7 +1004,7 @@ MonoBehaviour:
   _wrapMode: 0
   _iterationDelay: 0.0025
   _decayStep: 0.025
-  _gradient:
+  _decayGradient:
     serializedVersion: 2
     key0: {r: 0.740566, g: 1, b: 0.7940522, a: 1}
     key1: {r: 0.4764151, g: 1, b: 0.5093647, a: 1}
@@ -1054,7 +1054,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1018450102
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1073,7 +1073,7 @@ MonoBehaviour:
   _wrapMode: 0
   _iterationDelay: 0.01
   _decayStep: 0.1
-  _gradient:
+  _decayGradient:
     serializedVersion: 2
     key0: {r: 1, g: 1, b: 1, a: 1}
     key1: {r: 0.28454673, g: 0.9150943, b: 0.18560876, a: 1}
@@ -1270,7 +1270,7 @@ MonoBehaviour:
   _wrapMode: 0
   _iterationDelay: 0.01
   _decayStep: 0.002
-  _gradient:
+  _decayGradient:
     serializedVersion: 2
     key0: {r: 1, g: 1, b: 1, a: 1}
     key1: {r: 1, g: 0.5851397, b: 0, a: 1}
@@ -1300,7 +1300,7 @@ MonoBehaviour:
     m_ColorSpace: -1
     m_NumColorKeys: 4
     m_NumAlphaKeys: 2
-  _rules: B3/S2,3
+  _rules: 2,3/2
   _randomStep: 0.5
 --- !u!1 &1526081892
 GameObject:
@@ -1320,7 +1320,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1526081893
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1339,7 +1339,7 @@ MonoBehaviour:
   _wrapMode: 0
   _iterationDelay: 0.1
   _decayStep: 0.1
-  _gradient:
+  _decayGradient:
     serializedVersion: 2
     key0: {r: 1, g: 1, b: 1, a: 1}
     key1: {r: 0.28454673, g: 0.9150943, b: 0.18560876, a: 1}
@@ -1454,7 +1454,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1566017293
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1473,7 +1473,7 @@ MonoBehaviour:
   _wrapMode: 0
   _iterationDelay: 0.04
   _decayStep: 0.01
-  _gradient:
+  _decayGradient:
     serializedVersion: 2
     key0: {r: 1, g: 0.81701356, b: 0.2783019, a: 1}
     key1: {r: 1, g: 0.44950724, b: 0, a: 1}
@@ -1588,7 +1588,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1602977723
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1607,7 +1607,7 @@ MonoBehaviour:
   _wrapMode: 0
   _iterationDelay: 0.01
   _decayStep: 0.1
-  _gradient:
+  _decayGradient:
     serializedVersion: 2
     key0: {r: 1, g: 1, b: 1, a: 1}
     key1: {r: 1, g: 0.8837677, b: 0.2216981, a: 1}
@@ -1722,7 +1722,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!23 &1664585461
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -1806,7 +1806,7 @@ MonoBehaviour:
   _wrapMode: 0
   _iterationDelay: 0.01
   _decayStep: 0.002
-  _gradient:
+  _decayGradient:
     serializedVersion: 2
     key0: {r: 1, g: 1, b: 1, a: 1}
     key1: {r: 1, g: 0.8759049, b: 0, a: 1}
@@ -1856,7 +1856,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1923221431
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1875,7 +1875,7 @@ MonoBehaviour:
   _wrapMode: 0
   _iterationDelay: 0.01
   _decayStep: 0.1
-  _gradient:
+  _decayGradient:
     serializedVersion: 2
     key0: {r: 1, g: 1, b: 1, a: 1}
     key1: {r: 0.03773582, g: 0.03773582, b: 0.03773582, a: 1}
@@ -1990,7 +1990,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1928340239
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2009,7 +2009,7 @@ MonoBehaviour:
   _wrapMode: 0
   _iterationDelay: 0.1
   _decayStep: 0.1
-  _gradient:
+  _decayGradient:
     serializedVersion: 2
     key0: {r: 1, g: 0.9343723, b: 0.3254717, a: 1}
     key1: {r: 0.030838378, g: 0.057355776, b: 0.1981132, a: 1}
@@ -2124,7 +2124,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1995170760
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2143,7 +2143,7 @@ MonoBehaviour:
   _wrapMode: 0
   _iterationDelay: 0
   _decayStep: 0.1
-  _gradient:
+  _decayGradient:
     serializedVersion: 2
     key0: {r: 1, g: 1, b: 1, a: 1}
     key1: {r: 0.28454673, g: 0.9150943, b: 0.18560876, a: 1}
@@ -2258,7 +2258,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &2072692456
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2277,7 +2277,7 @@ MonoBehaviour:
   _wrapMode: 0
   _iterationDelay: 0.1
   _decayStep: 0.05
-  _gradient:
+  _decayGradient:
     serializedVersion: 2
     key0: {r: 1, g: 1, b: 1, a: 1}
     key1: {r: 0.03773582, g: 0.03773582, b: 0.03773582, a: 1}
