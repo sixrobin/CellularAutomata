@@ -12,8 +12,8 @@ namespace CellularAutomata
         private const string RESOLUTION_ID = "_Resolution";
         protected const string RULES_ID = "_Rules";
 
+        private const string INIT_CENTER_WIDTH_ID = "_InitCenterWidth";
         protected const string INIT_RANDOM_STEP_ID = "_InitRandomStep";
-        protected const string INIT_CENTER_WIDTH_ID = "_InitCenterWidth";
 
         protected static readonly int RESOLUTION_SHADER_ID = Shader.PropertyToID(RESOLUTION_ID);
         private static readonly int RAMP_SHADER_ID = Shader.PropertyToID("_Ramp");
@@ -24,6 +24,12 @@ namespace CellularAutomata
         protected Resolution _resolution = CellularAutomata.Resolution._32;
         [SerializeField]
         protected string _rules = "1/1/2/M";
+        [SerializeField]
+        private InitializationMethod _initializationMethod = InitializationMethod.RANDOM_STEP;
+        [SerializeField, Range(0f, 1f)]
+        protected float _initRandomStep = 0.5f;
+        [SerializeField, Min(0)]
+        private int _initCenterWidth = 16;
         [SerializeField, Min(0f)]
         private float _iterationDelay = 0.1f;
         [SerializeField]
@@ -41,12 +47,14 @@ namespace CellularAutomata
 
         protected virtual void Init()
         {
-            this._threadGroups = Resolution / 8;
-            this._computeShader.SetFloat(RESOLUTION_ID, this.Resolution);
-
             this._initKernelIndex = this._computeShader.FindKernel(KERNEL_NAME_INIT);
             this._nextKernelIndex = this._computeShader.FindKernel(KERNEL_NAME_NEXT);
             this._applyBufferKernelIndex = this._computeShader.FindKernel(KERNEL_NAME_APPLY_BUFFER);
+            
+            this._threadGroups = Resolution / 8;
+            this._computeShader.SetFloat(RESOLUTION_ID, this.Resolution);
+            this._computeShader.SetFloat(INIT_RANDOM_STEP_ID, this._initializationMethod.HasFlag(InitializationMethod.RANDOM_STEP) ? this._initRandomStep : 1f);
+            this._computeShader.SetInt(INIT_CENTER_WIDTH_ID, this._initializationMethod.HasFlag(InitializationMethod.CENTER_CELLS) ? this._initCenterWidth : this.Resolution);
         }
         
         protected abstract void Next();

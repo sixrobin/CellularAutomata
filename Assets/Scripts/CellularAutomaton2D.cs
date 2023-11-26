@@ -11,10 +11,8 @@ namespace CellularAutomata
         
         [SerializeField]
         private Renderer _renderer;
-
         [SerializeField]
         private TextureWrapMode _wrapMode = TextureWrapMode.Repeat;
-
         [SerializeField, Range(0.001f, 1f)]
         private float _decayStep = 0.1f;
 
@@ -37,13 +35,11 @@ namespace CellularAutomata
         protected override void Init()
         {
             this._computeShader = Instantiate(this._computeShader); // Create a compute shader copy so that every instance can have its own parameters.
-
             base.Init();
+            this._computeShader.SetFloat(DECAY_STEP_ID, this._decayStep);
 
             this._result = this.CreateTexture();
             this._gridBuffer = this.CreateTexture();
-
-            this._computeShader.SetFloat(DECAY_STEP_ID, this._decayStep);
 
             this.InitRampTexture(this._renderer.material);
             this._renderer.material.SetTexture(MAIN_TEX_SHADER_ID, this._result);

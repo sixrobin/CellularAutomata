@@ -5,20 +5,37 @@
 #include "CellularAutomaton2D.cginc"
 #include "Random.cginc"
 
-float _InitRandomStep;
-
 [numthreads(8,8,1)]
 void Init(uint3 id : SV_DispatchThreadID)
 {
-    _Result[id.xy] = float4(step(random(id.xy), _InitRandomStep).xxx, 1);
+    float halfResolution = _Resolution / 2;
+    int state = step(random(id.xy), _InitRandomStep);
+    int3 sid = id;
+
+    if (_InitCenterWidth == 1)
+    {
+        state = state == 1 && sid.x == halfResolution && sid.y == halfResolution ? _Rules.z - 1 : 0;
+    }
+    else
+    {
+        float halfInitCenterWidth = ceil(_InitCenterWidth / 2.0);
+
+        state = state == 1
+                && sid.x > halfResolution - halfInitCenterWidth
+                && sid.x < halfResolution + halfInitCenterWidth
+                && sid.y > halfResolution - halfInitCenterWidth
+                && sid.y < halfResolution + halfInitCenterWidth ? _Rules.z - 1 : 0;
+    }
+    
+    _Result[id.xy] = float4(state.xxx, 1);
 }
 
 [numthreads(8,8,1)]
 void Next(uint3 id : SV_DispatchThreadID)
 {
-    float4 pos = float4(id.x / _Resolution, id.y / _Resolution, 0, 0);
-    int neighbours = _Rules.w == 0 ? ComputeMooreNeighboursCount(pos) : ComputeNeumannNeighboursCount(pos);
-    float state = tex2Dlod(_GridBuffer, pos).r;
+    float4 uv = GetUV(id);
+    int neighbours = _Rules.w == 0 ? ComputeMooreNeighboursCount(uv) : ComputeNeumannNeighboursCount(uv);
+    float state = tex2Dlod(_GridBuffer, uv).r;
 
     // Modify neighbours count using 2^n formula to make it comparable with the rules, using a AND operator.
     neighbours = pow(2, neighbours);

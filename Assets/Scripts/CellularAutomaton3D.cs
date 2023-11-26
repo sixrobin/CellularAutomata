@@ -16,13 +16,7 @@ namespace CellularAutomata
             public Vector3 Position;
             public int State;
         }
-
-        [SerializeField]
-        private InitializationMethod _initializationMethod = InitializationMethod.RANDOM_STEP;
-        [SerializeField, Min(0)]
-        private int _initCenterWidth = 4;
-        [SerializeField, Range(0f, 1f)]
-        private float _initRandomStep = 0.5f;
+        
         [SerializeField]
         private Material _material;
         [SerializeField]
@@ -66,9 +60,6 @@ namespace CellularAutomata
             this._computeShader.SetBuffer(this._prepareBufferKernelIndex, CUBES_BUFFER_ID, this._cubesBuffer);
             this._computeShader.SetBuffer(this._applyBufferKernelIndex, CUBES_ID, this._cubes);
             this._computeShader.SetBuffer(this._applyBufferKernelIndex, CUBES_BUFFER_ID, this._cubesBuffer);
-            
-            this._computeShader.SetFloat(INIT_RANDOM_STEP_ID, this._initializationMethod.HasFlag(InitializationMethod.RANDOM_STEP) ? this._initRandomStep : 1f);
-            this._computeShader.SetInt(INIT_CENTER_WIDTH_ID, this._initializationMethod.HasFlag(InitializationMethod.CENTER_CELLS) ? this._initCenterWidth : this.Resolution);
             
             this.InitRules();
             this.InitRampTexture(this._material);

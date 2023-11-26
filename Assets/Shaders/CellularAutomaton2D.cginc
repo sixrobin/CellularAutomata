@@ -4,6 +4,11 @@ RWTexture2D<float4> _Result;
 sampler2D _GridBuffer;
 float _DecayStep;
 
+float4 GetUV(uint3 id)
+{
+    return float4(id.x / _Resolution, id.y / _Resolution, 0, 0);
+}
+
 int ComputeMooreNeighboursCount(float4 position)
 {
     float delta = 1.0 / _Resolution;

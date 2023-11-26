@@ -14,8 +14,6 @@ struct Cube
 
 RWStructuredBuffer<Cube> _CubesBuffer;
 RWStructuredBuffer<Cube> _Cubes;
-float _InitRandomStep;
-int _InitCenterWidth;
 
 int GetUID(uint3 id)
 {
@@ -111,7 +109,6 @@ int ComputeNeumannNeighboursCount(uint3 id)
 void Init(uint3 id : SV_DispatchThreadID)
 {
     float halfResolution = _Resolution / 2;
-    float halfInitCenterWidth = ceil(_InitCenterWidth / 2.0);
     int display = step(random(id.xyz), _InitRandomStep);
 
     uint uid = GetUID(id);
@@ -125,6 +122,8 @@ void Init(uint3 id : SV_DispatchThreadID)
     }
     else
     {
+        float halfInitCenterWidth = ceil(_InitCenterWidth / 2.0);
+
         _Cubes[uid].State = display == 1
                             && sid.x > halfResolution - halfInitCenterWidth
                             && sid.x < halfResolution + halfInitCenterWidth
