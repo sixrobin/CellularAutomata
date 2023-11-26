@@ -36,9 +36,7 @@ int getMooreNeighboursCount(uint3 id)
                 if (x == 0 && y == 0 && z == 0)
                     continue;
 
-                int3 offset = int3(x,y,z);
-                uint3 neighbourID = id + offset;
-
+                int3 neighbourID = id + int3(x,y,z);
                 if (neighbourID.x >= _Resolution || neighbourID.y >= _Resolution || neighbourID.z >= _Resolution)
                     continue;
                 
@@ -57,8 +55,7 @@ int getNeumannNeighboursCount(uint3 id)
     int neighboursCount = 0;
 
     // Negative X.
-    int3 offset = int3(-1,0,0);
-    uint3 neighbourID = id + offset;
+    int3 neighbourID = id + int3(-1,0,0);
     if (neighbourID.x <= _Resolution)
     {
         uint neighbourUID = getUID(neighbourID);
@@ -66,8 +63,7 @@ int getNeumannNeighboursCount(uint3 id)
         neighboursCount += neighbour.State == _Rules.z - 1 ? 1 : 0;
     }
     // Positive X.
-    offset = int3(1,0,0);
-    neighbourID = id + offset;
+    neighbourID = id + int3(1,0,0);
     if (neighbourID.x <= _Resolution)
     {
         uint neighbourUID = getUID(neighbourID);
@@ -76,8 +72,7 @@ int getNeumannNeighboursCount(uint3 id)
     }
 
     // Negative Y.
-    offset = int3(0,-1,0);
-    neighbourID = id + offset;
+    neighbourID = id + int3(0,-1,0);
     if (neighbourID.y <= _Resolution)
     {
         uint neighbourUID = getUID(neighbourID);
@@ -85,8 +80,7 @@ int getNeumannNeighboursCount(uint3 id)
         neighboursCount += neighbour.State == _Rules.z - 1 ? 1 : 0;
     }
     // Positive Y.
-    offset = int3(0,1,0);
-    neighbourID = id + offset;
+    neighbourID = id + int3(0,1,0);
     if (neighbourID.y <= _Resolution)
     {
         uint neighbourUID = getUID(neighbourID);
@@ -95,8 +89,7 @@ int getNeumannNeighboursCount(uint3 id)
     }
 
     // Negative Z.
-    offset = int3(0,0,-1);
-    neighbourID = id + offset;
+    neighbourID = id + int3(0,0,-1);
     if (neighbourID.z <= _Resolution)
     {
         uint neighbourUID = getUID(neighbourID);
@@ -104,8 +97,7 @@ int getNeumannNeighboursCount(uint3 id)
         neighboursCount += neighbour.State == _Rules.z - 1 ? 1 : 0;
     }
     // Positive Z.
-    offset = int3(0,0,1);
-    neighbourID = id + offset;
+    neighbourID = id + int3(0,0,1);
     if (neighbourID.z <= _Resolution)
     {
         uint neighbourUID = getUID(neighbourID);
@@ -126,19 +118,21 @@ void Init(uint3 id : SV_DispatchThreadID)
     uint uid = getUID(id);
     _Cubes[uid].Position = float3(id.xyz);
 
+    int3 sid = id;
+    
     if (_InitCenterWidth == 1)
     {
-        _Cubes[uid].State = display == 1 && id.x == halfResolution && id.y == halfResolution && id.z == halfResolution ? _Rules.z - 1 : 0;
+        _Cubes[uid].State = display == 1 && sid.x == halfResolution && sid.y == halfResolution && sid.z == halfResolution ? _Rules.z - 1 : 0;
     }
     else
     {
         _Cubes[uid].State = display == 1
-                            && id.x > halfResolution - halfInitCenterWidth
-                            && id.x < halfResolution + halfInitCenterWidth
-                            && id.y > halfResolution - halfInitCenterWidth
-                            && id.y < halfResolution + halfInitCenterWidth
-                            && id.z > halfResolution - halfInitCenterWidth
-                            && id.z < halfResolution + halfInitCenterWidth ? _Rules.z - 1 : 0;
+                            && sid.x > halfResolution - halfInitCenterWidth
+                            && sid.x < halfResolution + halfInitCenterWidth
+                            && sid.y > halfResolution - halfInitCenterWidth
+                            && sid.y < halfResolution + halfInitCenterWidth
+                            && sid.z > halfResolution - halfInitCenterWidth
+                            && sid.z < halfResolution + halfInitCenterWidth ? _Rules.z - 1 : 0;
     }
 }
 
