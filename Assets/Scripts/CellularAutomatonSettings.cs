@@ -28,7 +28,7 @@ namespace CellularAutomata
         public float IterationDelay => this._iterationDelay;
         public Gradient Gradient => this._gradient;
         
-        public void Set(Resolution res, string rules, InitializationMethod initMethod, float randomStep, int width, float delay, Gradient gradient)
+        public void SetSettings(Resolution res, string rules, InitializationMethod initMethod, float randomStep, int width, float delay, Gradient gradient)
         {
             this._resolution = res;
             this._rules = rules;
@@ -37,6 +37,8 @@ namespace CellularAutomata
             this._initCenterWidth = width;
             this._iterationDelay = delay;
             this._gradient = gradient;
+            
+            UnityEditor.AssetDatabase.SaveAssets();
         }
     }
 }

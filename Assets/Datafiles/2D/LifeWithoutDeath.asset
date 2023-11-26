@@ -12,16 +12,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d6c9ae3a63f14c248a8c70fc13533378, type: 3}
   m_Name: LifeWithoutDeath
   m_EditorClassIdentifier: 
-  <Resolution>k__BackingField: 64
-  <Rules>k__BackingField: 1/1/2/M
-  <InitializationMethod>k__BackingField: 2
-  <InitRandomStep>k__BackingField: 0.5
-  <InitCenterWidth>k__BackingField: 16
-  <IterationDelay>k__BackingField: 0.1
-  <Gradient>k__BackingField:
+  _resolution: 256
+  _rules: 3/0-8
+  _initializationMethod: 2
+  _initRandomStep: 0.012
+  _initCenterWidth: 8
+  _iterationDelay: 0.1
+  _gradient:
     serializedVersion: 2
-    key0: {r: 1, g: 1, b: 1, a: 1}
-    key1: {r: 1, g: 1, b: 1, a: 1}
+    key0: {r: 1, g: 0.9343723, b: 0.3254717, a: 1}
+    key1: {r: 0.030838378, g: 0.057355776, b: 0.1981132, a: 1}
     key2: {r: 0, g: 0, b: 0, a: 0}
     key3: {r: 0, g: 0, b: 0, a: 0}
     key4: {r: 0, g: 0, b: 0, a: 0}

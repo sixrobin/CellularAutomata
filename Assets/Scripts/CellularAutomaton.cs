@@ -49,7 +49,7 @@ namespace CellularAutomata
         [ContextMenu("oui")]
         void Oui()
         {
-            _settings.Set(this._resolution, this._rules, this._initializationMethod, this._initRandomStep, this._initCenterWidth, this._iterationDelay, this._gradient);
+            _settings.SetSettings(this._resolution, this._rules, this._initializationMethod, this._initRandomStep, this._initCenterWidth, this._iterationDelay, this._gradient);
         }
         
         protected virtual void Init()
