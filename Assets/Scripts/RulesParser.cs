@@ -82,7 +82,7 @@ namespace CellularAutomata
 
         private static int ParseCellStatesRule(string rule)
         {
-            return int.Parse(rule);
+            return int.TryParse(rule, out int ruleToInt) ? ruleToInt : 2;
         }
 
         private static int ParseNeighbourhoodRule(string rule)

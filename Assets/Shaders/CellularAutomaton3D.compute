@@ -3,8 +3,8 @@
 #pragma kernel PrepareBuffer
 #pragma kernel ApplyBuffer
 
-#include "Random.cginc"
 #include "CellularAutomaton.cginc"
+#include "Random.cginc"
 
 struct Cube
 {
@@ -17,12 +17,12 @@ RWStructuredBuffer<Cube> _Cubes;
 float _InitRandomStep;
 int _InitCenterWidth;
 
-int getUID(uint3 id)
+int GetUID(uint3 id)
 {
     return id.x + id.y * _Resolution + id.z * _Resolution * _Resolution;
 }
 
-int getMooreNeighboursCount(uint3 id)
+int ComputeMooreNeighboursCount(uint3 id)
 {
     int neighboursCount = 0;
 
@@ -39,7 +39,7 @@ int getMooreNeighboursCount(uint3 id)
                 if (neighbourID.x >= _Resolution || neighbourID.y >= _Resolution || neighbourID.z >= _Resolution)
                     continue;
                 
-                uint neighbourUID = getUID(neighbourID);
+                uint neighbourUID = GetUID(neighbourID);
                 Cube neighbour = _Cubes[neighbourUID];
                 neighboursCount += neighbour.State == _Rules.z - 1 ? 1 : 0;
             }
@@ -49,7 +49,7 @@ int getMooreNeighboursCount(uint3 id)
     return neighboursCount;
 }
 
-int getNeumannNeighboursCount(uint3 id)
+int ComputeNeumannNeighboursCount(uint3 id)
 {
     int neighboursCount = 0;
 
@@ -57,7 +57,7 @@ int getNeumannNeighboursCount(uint3 id)
     int3 neighbourID = id + int3(-1,0,0);
     if (neighbourID.x <= _Resolution)
     {
-        uint neighbourUID = getUID(neighbourID);
+        uint neighbourUID = GetUID(neighbourID);
         Cube neighbour = _Cubes[neighbourUID];
         neighboursCount += neighbour.State == _Rules.z - 1 ? 1 : 0;
     }
@@ -65,7 +65,7 @@ int getNeumannNeighboursCount(uint3 id)
     neighbourID = id + int3(1,0,0);
     if (neighbourID.x <= _Resolution)
     {
-        uint neighbourUID = getUID(neighbourID);
+        uint neighbourUID = GetUID(neighbourID);
         Cube neighbour = _Cubes[neighbourUID];
         neighboursCount += neighbour.State == _Rules.z - 1 ? 1 : 0;
     }
@@ -74,7 +74,7 @@ int getNeumannNeighboursCount(uint3 id)
     neighbourID = id + int3(0,-1,0);
     if (neighbourID.y <= _Resolution)
     {
-        uint neighbourUID = getUID(neighbourID);
+        uint neighbourUID = GetUID(neighbourID);
         Cube neighbour = _Cubes[neighbourUID];
         neighboursCount += neighbour.State == _Rules.z - 1 ? 1 : 0;
     }
@@ -82,7 +82,7 @@ int getNeumannNeighboursCount(uint3 id)
     neighbourID = id + int3(0,1,0);
     if (neighbourID.y <= _Resolution)
     {
-        uint neighbourUID = getUID(neighbourID);
+        uint neighbourUID = GetUID(neighbourID);
         Cube neighbour = _Cubes[neighbourUID];
         neighboursCount += neighbour.State == _Rules.z - 1 ? 1 : 0;
     }
@@ -91,7 +91,7 @@ int getNeumannNeighboursCount(uint3 id)
     neighbourID = id + int3(0,0,-1);
     if (neighbourID.z <= _Resolution)
     {
-        uint neighbourUID = getUID(neighbourID);
+        uint neighbourUID = GetUID(neighbourID);
         Cube neighbour = _Cubes[neighbourUID];
         neighboursCount += neighbour.State == _Rules.z - 1 ? 1 : 0;
     }
@@ -99,7 +99,7 @@ int getNeumannNeighboursCount(uint3 id)
     neighbourID = id + int3(0,0,1);
     if (neighbourID.z <= _Resolution)
     {
-        uint neighbourUID = getUID(neighbourID);
+        uint neighbourUID = GetUID(neighbourID);
         Cube neighbour = _Cubes[neighbourUID];
         neighboursCount += neighbour.State == _Rules.z - 1 ? 1 : 0;
     }
@@ -114,7 +114,7 @@ void Init(uint3 id : SV_DispatchThreadID)
     float halfInitCenterWidth = ceil(_InitCenterWidth / 2.0);
     int display = step(random(id.xyz), _InitRandomStep);
 
-    uint uid = getUID(id);
+    uint uid = GetUID(id);
     _Cubes[uid].Position = float3(id.xyz);
 
     int3 sid = id;
@@ -138,9 +138,9 @@ void Init(uint3 id : SV_DispatchThreadID)
 [numthreads(8,8,8)]
 void Next(uint3 id : SV_DispatchThreadID)
 {
-    int uid = getUID(id);
+    int uid = GetUID(id);
     Cube cube = _Cubes[uid];
-    int neighbours = _Rules.w == 0 ? getMooreNeighboursCount(id) : getNeumannNeighboursCount(id);
+    int neighbours = _Rules.w == 0 ? ComputeMooreNeighboursCount(id) : ComputeNeumannNeighboursCount(id);
     neighbours = pow(2, neighbours);
 
     if (cube.State == 0) // Dead.
@@ -162,13 +162,13 @@ void Next(uint3 id : SV_DispatchThreadID)
 [numthreads(8,8,8)]
 void PrepareBuffer(uint3 id : SV_DispatchThreadID)
 {
-    int uid = getUID(id);
+    int uid = GetUID(id);
     _CubesBuffer[uid] = _Cubes[uid];
 }
 
 [numthreads(8,8,8)]
 void ApplyBuffer(uint3 id : SV_DispatchThreadID)
 {
-    int uid = getUID(id);
+    int uid = GetUID(id);
     _Cubes[uid] = _CubesBuffer[uid];
 }

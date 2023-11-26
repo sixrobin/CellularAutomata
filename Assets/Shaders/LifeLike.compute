@@ -3,6 +3,7 @@
 #pragma kernel ApplyBuffer
 
 #include "CellularAutomaton2D.cginc"
+#include "Random.cginc"
 
 float _InitRandomStep;
 
@@ -16,7 +17,7 @@ void Init(uint3 id : SV_DispatchThreadID)
 void Next(uint3 id : SV_DispatchThreadID)
 {
     float4 pos = float4(id.x / _Resolution, id.y / _Resolution, 0, 0);
-    int neighbours = ComputeNeighboursCount(pos);
+    int neighbours = _Rules.w == 0 ? ComputeMooreNeighboursCount(pos) : ComputeNeumannNeighboursCount(pos);
     float state = tex2Dlod(_GridBuffer, pos).r;
 
     // Modify neighbours count using 2^n formula to make it comparable with the rules, using a AND operator.

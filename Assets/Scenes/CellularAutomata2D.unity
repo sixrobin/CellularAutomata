@@ -264,11 +264,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _computeShader: {fileID: 7200000, guid: 3323d1d345f0ede4fb5750eb1aa3f6bd, type: 3}
-  _renderer: {fileID: 191802527}
   _resolution: 256
-  _wrapMode: 0
+  _rules: 3,5/3,5
   _iterationDelay: 0.05
-  _decayStep: 0.1
   _gradient:
     serializedVersion: 2
     key0: {r: 1, g: 1, b: 1, a: 1}
@@ -299,7 +297,9 @@ MonoBehaviour:
     m_ColorSpace: -1
     m_NumColorKeys: 2
     m_NumAlphaKeys: 2
-  _rules: 3,5/3,5
+  _renderer: {fileID: 191802527}
+  _wrapMode: 0
+  _decayStep: 0.1
   _randomStep: 0.5
 --- !u!23 &191802527
 MeshRenderer:
@@ -398,11 +398,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _computeShader: {fileID: 7200000, guid: 3323d1d345f0ede4fb5750eb1aa3f6bd, type: 3}
-  _renderer: {fileID: 447419493}
   _resolution: 1024
-  _wrapMode: 0
+  _rules: 4,6-8/3,5-8
   _iterationDelay: 0.02
-  _decayStep: 0.005
   _gradient:
     serializedVersion: 2
     key0: {r: 0.504717, g: 1, b: 0.79966605, a: 1}
@@ -433,7 +431,9 @@ MonoBehaviour:
     m_ColorSpace: -1
     m_NumColorKeys: 4
     m_NumAlphaKeys: 2
-  _rules: 4,6-8/3,5-8
+  _renderer: {fileID: 447419493}
+  _wrapMode: 0
+  _decayStep: 0.005
   _randomStep: 0.5
 --- !u!23 &447419493
 MeshRenderer:
@@ -532,11 +532,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _computeShader: {fileID: 7200000, guid: 3323d1d345f0ede4fb5750eb1aa3f6bd, type: 3}
-  _renderer: {fileID: 657216581}
   _resolution: 256
-  _wrapMode: 0
+  _rules: 3,6,8/2,4-5
   _iterationDelay: 0.02
-  _decayStep: 0.01
   _gradient:
     serializedVersion: 2
     key0: {r: 1, g: 1, b: 1, a: 1}
@@ -567,7 +565,9 @@ MonoBehaviour:
     m_ColorSpace: -1
     m_NumColorKeys: 3
     m_NumAlphaKeys: 2
-  _rules: 3,6,8/2,4-5
+  _renderer: {fileID: 657216581}
+  _wrapMode: 0
+  _decayStep: 0.01
   _randomStep: 0.6
 --- !u!23 &657216581
 MeshRenderer:
@@ -666,11 +666,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _computeShader: {fileID: 7200000, guid: 3323d1d345f0ede4fb5750eb1aa3f6bd, type: 3}
-  _renderer: {fileID: 943412707}
   _resolution: 256
-  _wrapMode: 0
+  _rules: 3,6/2-3
   _iterationDelay: 0.02
-  _decayStep: 0.005
   _gradient:
     serializedVersion: 2
     key0: {r: 1, g: 1, b: 1, a: 1}
@@ -701,7 +699,9 @@ MonoBehaviour:
     m_ColorSpace: -1
     m_NumColorKeys: 3
     m_NumAlphaKeys: 2
-  _rules: 3,6/2-3
+  _renderer: {fileID: 943412707}
+  _wrapMode: 0
+  _decayStep: 0.005
   _randomStep: 0.1
 --- !u!23 &943412707
 MeshRenderer:
@@ -800,11 +800,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _computeShader: {fileID: 7200000, guid: 3323d1d345f0ede4fb5750eb1aa3f6bd, type: 3}
-  _renderer: {fileID: 1002569322}
   _resolution: 16
-  _wrapMode: 0
+  _rules: 1/0-2,7
   _iterationDelay: 0
-  _decayStep: 0.1
   _gradient:
     serializedVersion: 2
     key0: {r: 1, g: 1, b: 1, a: 1}
@@ -835,7 +833,9 @@ MonoBehaviour:
     m_ColorSpace: -1
     m_NumColorKeys: 2
     m_NumAlphaKeys: 2
-  _rules: 1/0-2,7
+  _renderer: {fileID: 1002569322}
+  _wrapMode: 0
+  _decayStep: 0.1
   _randomStep: 0.5
 --- !u!23 &1002569322
 MeshRenderer:
@@ -999,11 +999,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _computeShader: {fileID: 7200000, guid: 3323d1d345f0ede4fb5750eb1aa3f6bd, type: 3}
-  _renderer: {fileID: 1015046487}
   _resolution: 256
-  _wrapMode: 0
+  _rules: 2/
   _iterationDelay: 0.0025
-  _decayStep: 0.025
   _gradient:
     serializedVersion: 2
     key0: {r: 0.740566, g: 1, b: 0.7940522, a: 1}
@@ -1034,7 +1032,9 @@ MonoBehaviour:
     m_ColorSpace: -1
     m_NumColorKeys: 5
     m_NumAlphaKeys: 2
-  _rules: 2/
+  _renderer: {fileID: 1015046487}
+  _wrapMode: 0
+  _decayStep: 0.025
   _randomStep: 0.0001
 --- !u!1 &1018450101
 GameObject:
@@ -1068,11 +1068,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _computeShader: {fileID: 7200000, guid: d472a17d72829244c89b68071da6fe64, type: 3}
-  _renderer: {fileID: 1018450103}
   _resolution: 128
-  _wrapMode: 0
+  _rules: 1/1/2/M
   _iterationDelay: 0.01
-  _decayStep: 0.1
   _gradient:
     serializedVersion: 2
     key0: {r: 1, g: 1, b: 1, a: 1}
@@ -1103,6 +1101,9 @@ MonoBehaviour:
     m_ColorSpace: -1
     m_NumColorKeys: 3
     m_NumAlphaKeys: 2
+  _renderer: {fileID: 1018450103}
+  _wrapMode: 0
+  _decayStep: 0.1
 --- !u!23 &1018450103
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -1265,11 +1266,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _computeShader: {fileID: 7200000, guid: 3323d1d345f0ede4fb5750eb1aa3f6bd, type: 3}
-  _renderer: {fileID: 1074654134}
   _resolution: 256
-  _wrapMode: 0
+  _rules: 3/2-3
   _iterationDelay: 0.01
-  _decayStep: 0.002
   _gradient:
     serializedVersion: 2
     key0: {r: 1, g: 1, b: 1, a: 1}
@@ -1300,7 +1299,9 @@ MonoBehaviour:
     m_ColorSpace: -1
     m_NumColorKeys: 4
     m_NumAlphaKeys: 2
-  _rules: 3/2-3
+  _renderer: {fileID: 1074654134}
+  _wrapMode: 0
+  _decayStep: 0.002
   _randomStep: 0.5
 --- !u!1 &1526081892
 GameObject:
@@ -1334,11 +1335,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _computeShader: {fileID: 7200000, guid: 3323d1d345f0ede4fb5750eb1aa3f6bd, type: 3}
-  _renderer: {fileID: 1526081894}
   _resolution: 256
-  _wrapMode: 0
+  _rules: 3,6/1-2,5
   _iterationDelay: 0.1
-  _decayStep: 0.1
   _gradient:
     serializedVersion: 2
     key0: {r: 1, g: 1, b: 1, a: 1}
@@ -1369,7 +1368,9 @@ MonoBehaviour:
     m_ColorSpace: -1
     m_NumColorKeys: 3
     m_NumAlphaKeys: 2
-  _rules: 3,6/1-2,5
+  _renderer: {fileID: 1526081894}
+  _wrapMode: 0
+  _decayStep: 0.1
   _randomStep: 0.569
 --- !u!23 &1526081894
 MeshRenderer:
@@ -1468,11 +1469,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _computeShader: {fileID: 7200000, guid: 3323d1d345f0ede4fb5750eb1aa3f6bd, type: 3}
-  _renderer: {fileID: 1566017294}
   _resolution: 512
-  _wrapMode: 0
+  _rules: 3,5-8/5-8
   _iterationDelay: 0.04
-  _decayStep: 0.01
   _gradient:
     serializedVersion: 2
     key0: {r: 1, g: 0.81701356, b: 0.2783019, a: 1}
@@ -1503,7 +1502,9 @@ MonoBehaviour:
     m_ColorSpace: -1
     m_NumColorKeys: 3
     m_NumAlphaKeys: 2
-  _rules: 3,5-8/5-8
+  _renderer: {fileID: 1566017294}
+  _wrapMode: 0
+  _decayStep: 0.01
   _randomStep: 0.48
 --- !u!23 &1566017294
 MeshRenderer:
@@ -1602,11 +1603,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _computeShader: {fileID: 7200000, guid: 3323d1d345f0ede4fb5750eb1aa3f6bd, type: 3}
-  _renderer: {fileID: 1602977724}
   _resolution: 256
-  _wrapMode: 0
+  _rules: 3-4/3-4
   _iterationDelay: 0.01
-  _decayStep: 0.1
   _gradient:
     serializedVersion: 2
     key0: {r: 1, g: 1, b: 1, a: 1}
@@ -1637,7 +1636,9 @@ MonoBehaviour:
     m_ColorSpace: -1
     m_NumColorKeys: 5
     m_NumAlphaKeys: 2
-  _rules: 3-4/3-4
+  _renderer: {fileID: 1602977724}
+  _wrapMode: 0
+  _decayStep: 0.1
   _randomStep: 0.1
 --- !u!23 &1602977724
 MeshRenderer:
@@ -1801,11 +1802,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _computeShader: {fileID: 7200000, guid: 3323d1d345f0ede4fb5750eb1aa3f6bd, type: 3}
-  _renderer: {fileID: 1664585461}
   _resolution: 256
-  _wrapMode: 0
+  _rules: 3,6-8/3-4,6-8
   _iterationDelay: 0.01
-  _decayStep: 0.002
   _gradient:
     serializedVersion: 2
     key0: {r: 1, g: 1, b: 1, a: 1}
@@ -1836,7 +1835,9 @@ MonoBehaviour:
     m_ColorSpace: -1
     m_NumColorKeys: 3
     m_NumAlphaKeys: 2
-  _rules: 3,6-8/3-4,6-8
+  _renderer: {fileID: 1664585461}
+  _wrapMode: 0
+  _decayStep: 0.002
   _randomStep: 0.4
 --- !u!1 &1923221430
 GameObject:
@@ -1870,11 +1871,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _computeShader: {fileID: 7200000, guid: 3323d1d345f0ede4fb5750eb1aa3f6bd, type: 3}
-  _renderer: {fileID: 1923221432}
   _resolution: 512
-  _wrapMode: 0
+  _rules: 3/3-5
   _iterationDelay: 0.01
-  _decayStep: 0.1
   _gradient:
     serializedVersion: 2
     key0: {r: 1, g: 1, b: 1, a: 1}
@@ -1905,7 +1904,9 @@ MonoBehaviour:
     m_ColorSpace: -1
     m_NumColorKeys: 2
     m_NumAlphaKeys: 2
-  _rules: 3/3-5
+  _renderer: {fileID: 1923221432}
+  _wrapMode: 0
+  _decayStep: 0.1
   _randomStep: 0.5
 --- !u!23 &1923221432
 MeshRenderer:
@@ -2004,11 +2005,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _computeShader: {fileID: 7200000, guid: 3323d1d345f0ede4fb5750eb1aa3f6bd, type: 3}
-  _renderer: {fileID: 1928340240}
   _resolution: 256
-  _wrapMode: 0
+  _rules: 3/0-8
   _iterationDelay: 0.1
-  _decayStep: 0.1
   _gradient:
     serializedVersion: 2
     key0: {r: 1, g: 0.9343723, b: 0.3254717, a: 1}
@@ -2039,7 +2038,9 @@ MonoBehaviour:
     m_ColorSpace: -1
     m_NumColorKeys: 2
     m_NumAlphaKeys: 2
-  _rules: 3/0-8
+  _renderer: {fileID: 1928340240}
+  _wrapMode: 0
+  _decayStep: 0.1
   _randomStep: 0.012
 --- !u!23 &1928340240
 MeshRenderer:
@@ -2138,11 +2139,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _computeShader: {fileID: 7200000, guid: 3323d1d345f0ede4fb5750eb1aa3f6bd, type: 3}
-  _renderer: {fileID: 1995170761}
   _resolution: 16
-  _wrapMode: 0
+  _rules: 1/0-3
   _iterationDelay: 0
-  _decayStep: 0.1
   _gradient:
     serializedVersion: 2
     key0: {r: 1, g: 1, b: 1, a: 1}
@@ -2173,7 +2172,9 @@ MonoBehaviour:
     m_ColorSpace: -1
     m_NumColorKeys: 2
     m_NumAlphaKeys: 2
-  _rules: 1/0-3
+  _renderer: {fileID: 1995170761}
+  _wrapMode: 0
+  _decayStep: 0.1
   _randomStep: 0.5
 --- !u!23 &1995170761
 MeshRenderer:
@@ -2240,6 +2241,140 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1996110315
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1996110319}
+  - component: {fileID: 1996110318}
+  - component: {fileID: 1996110317}
+  - component: {fileID: 1996110316}
+  m_Layer: 0
+  m_Name: Test_04 (1)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1996110316
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1996110315}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ea81a57d7b68d1f44b4cbec3442ebd66, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _computeShader: {fileID: 7200000, guid: 3323d1d345f0ede4fb5750eb1aa3f6bd, type: 3}
+  _resolution: 64
+  _rules: 1/0-8//N
+  _iterationDelay: 0.5
+  _gradient:
+    serializedVersion: 2
+    key0: {r: 1, g: 1, b: 1, a: 1}
+    key1: {r: 0.03773582, g: 0.03773582, b: 0.03773582, a: 1}
+    key2: {r: 0, g: 0, b: 0, a: 0}
+    key3: {r: 0, g: 0, b: 0, a: 0}
+    key4: {r: 0, g: 0, b: 0, a: 0}
+    key5: {r: 0, g: 0, b: 0, a: 0}
+    key6: {r: 0, g: 0, b: 0, a: 0}
+    key7: {r: 0, g: 0, b: 0, a: 0}
+    ctime0: 0
+    ctime1: 65535
+    ctime2: 0
+    ctime3: 0
+    ctime4: 0
+    ctime5: 0
+    ctime6: 0
+    ctime7: 0
+    atime0: 0
+    atime1: 65535
+    atime2: 0
+    atime3: 0
+    atime4: 0
+    atime5: 0
+    atime6: 0
+    atime7: 0
+    m_Mode: 0
+    m_ColorSpace: -1
+    m_NumColorKeys: 2
+    m_NumAlphaKeys: 2
+  _renderer: {fileID: 1996110317}
+  _wrapMode: 0
+  _decayStep: 1
+  _randomStep: 0.01
+--- !u!23 &1996110317
+MeshRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1996110315}
+  m_Enabled: 1
+  m_CastShadows: 1
+  m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 2
+  m_RayTraceProcedural: 0
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 2100000, guid: b0e1d43f6c75dc940b1d97974dd92941, type: 2}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 3
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+  m_AdditionalVertexStreams: {fileID: 0}
+--- !u!33 &1996110318
+MeshFilter:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1996110315}
+  m_Mesh: {fileID: 10210, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!4 &1996110319
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1996110315}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 82.25, y: 0.6499996, z: 6.123235e-16}
+  m_LocalScale: {x: 10, y: 10, z: 10}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2072692455
 GameObject:
   m_ObjectHideFlags: 0
@@ -2272,11 +2407,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _computeShader: {fileID: 7200000, guid: 3323d1d345f0ede4fb5750eb1aa3f6bd, type: 3}
-  _renderer: {fileID: 2072692457}
   _resolution: 256
-  _wrapMode: 0
+  _rules: 1,3,5,7/1,3,5,7
   _iterationDelay: 0.1
-  _decayStep: 0.05
   _gradient:
     serializedVersion: 2
     key0: {r: 1, g: 1, b: 1, a: 1}
@@ -2307,7 +2440,9 @@ MonoBehaviour:
     m_ColorSpace: -1
     m_NumColorKeys: 2
     m_NumAlphaKeys: 2
-  _rules: 1,3,5,7/1,3,5,7
+  _renderer: {fileID: 2072692457}
+  _wrapMode: 0
+  _decayStep: 0.05
   _randomStep: 0.00001
 --- !u!23 &2072692457
 MeshRenderer:
@@ -2395,3 +2530,4 @@ SceneRoots:
   - {fileID: 191802529}
   - {fileID: 1995170763}
   - {fileID: 1002569324}
+  - {fileID: 1996110319}

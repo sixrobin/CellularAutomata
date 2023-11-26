@@ -78,7 +78,7 @@ namespace CellularAutomata
             this._material.SetBuffer(CUBES_SHADER_ID, this._cubes);
             this._material.SetFloat(RESOLUTION_SHADER_ID, this.Resolution);
 
-            (int surviveRule, int birthRule, int cellStatesRule, int neighbourhoodRule) = CellularAutomata.RulesParser.ParseRuleset(this._rules, log: true);
+            (int surviveRule, int birthRule, int cellStatesRule, int neighbourhoodRule) = RulesParser.ParseRuleset(this._rules);
             this._material.SetVector(RULES_ID, new Vector4(surviveRule, birthRule, cellStatesRule, neighbourhoodRule));
         }
         

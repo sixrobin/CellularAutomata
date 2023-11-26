@@ -15,7 +15,7 @@ namespace CellularAutomata
         [SerializeField]
         private TextureWrapMode _wrapMode = TextureWrapMode.Repeat;
 
-        [SerializeField, Range(0.001f, 0.1f)]
+        [SerializeField, Range(0.001f, 1f)]
         private float _decayStep = 0.1f;
 
         protected RenderTexture _result;
