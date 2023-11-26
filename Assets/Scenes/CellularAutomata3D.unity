@@ -338,44 +338,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f5baf594d7a35194c892daa9a0e6867a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _settings: {fileID: 11400000, guid: 9996e1781695f8f42863b15dd52325fe, type: 2}
   _computeShader: {fileID: 7200000, guid: d619fafc81c34804ab94304664726192, type: 3}
-  _resolution: 128
-  _rules: 4/4/5/M
-  _initializationMethod: 2
-  _initRandomStep: 0.13
-  _initCenterWidth: 32
-  _iterationDelay: 0
-  _gradient:
-    serializedVersion: 2
-    key0: {r: 1, g: 1, b: 1, a: 1}
-    key1: {r: 1, g: 0.5851397, b: 0, a: 1}
-    key2: {r: 0.13163048, g: 0.2651299, b: 0.3207547, a: 0}
-    key3: {r: 0.11483921, g: 0.080366686, b: 0.13207549, a: 0}
-    key4: {r: 0, g: 0, b: 0, a: 0}
-    key5: {r: 0, g: 0, b: 0, a: 0}
-    key6: {r: 0, g: 0, b: 0, a: 0}
-    key7: {r: 0, g: 0, b: 0, a: 0}
-    ctime0: 9638
-    ctime1: 25829
-    ctime2: 44333
-    ctime3: 65535
-    ctime4: 0
-    ctime5: 0
-    ctime6: 0
-    ctime7: 0
-    atime0: 0
-    atime1: 65535
-    atime2: 0
-    atime3: 0
-    atime4: 0
-    atime5: 0
-    atime6: 0
-    atime7: 0
-    m_Mode: 0
-    m_ColorSpace: -1
-    m_NumColorKeys: 4
-    m_NumAlphaKeys: 2
+  _settings: {fileID: 11400000, guid: 0fe9d7dd12e644c4292761af7c83c647, type: 2}
   _material: {fileID: 2100000, guid: f800254dfb95d7c46acaa05c11f6d6a4, type: 2}
   _mesh: {fileID: 4300000, guid: 386ab461dc1f6d947a57774705efdfa4, type: 2}
 --- !u!4 &1433379944

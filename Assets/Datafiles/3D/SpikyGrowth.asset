@@ -10,14 +10,14 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d6c9ae3a63f14c248a8c70fc13533378, type: 3}
-  m_Name: 445
+  m_Name: SpikyGrowth
   m_EditorClassIdentifier: 
   _resolution: 128
-  _rules: 4/4/5/M
+  _rules: 0-3,7-9,11-13,18,21-22,24,26/13,17,20-26/4/M
   _initializationMethod: -1
-  _initRandomStep: 0.5
-  _initCenterWidth: 64
-  _iterationDelay: 0
+  _initRandomStep: 0.924
+  _initCenterWidth: 32
+  _iterationDelay: 0.02
   _gradient:
     serializedVersion: 2
     key0: {r: 1, g: 1, b: 1, a: 1}

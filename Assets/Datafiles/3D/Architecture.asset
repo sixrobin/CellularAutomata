@@ -10,13 +10,13 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d6c9ae3a63f14c248a8c70fc13533378, type: 3}
-  m_Name: 445
+  m_Name: Architecture
   m_EditorClassIdentifier: 
   _resolution: 128
-  _rules: 4/4/5/M
+  _rules: 4-6/3/2/M
   _initializationMethod: -1
-  _initRandomStep: 0.5
-  _initCenterWidth: 64
+  _initRandomStep: 0.01
+  _initCenterWidth: 32
   _iterationDelay: 0
   _gradient:
     serializedVersion: 2

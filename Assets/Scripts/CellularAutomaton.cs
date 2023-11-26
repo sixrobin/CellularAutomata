@@ -18,23 +18,9 @@ namespace CellularAutomata
         private static readonly int RAMP_SHADER_ID = Shader.PropertyToID("_Ramp");
         
         [SerializeField]
-        protected CellularAutomatonSettings _settings;
-        [SerializeField]
         protected ComputeShader _computeShader;
         [SerializeField]
-        protected Resolution _resolution = CellularAutomata.Resolution._32;
-        [SerializeField]
-        protected string _rules = "1/1/2/M";
-        [SerializeField]
-        private InitializationMethod _initializationMethod = InitializationMethod.RANDOM_STEP;
-        [SerializeField, Range(0f, 1f)]
-        protected float _initRandomStep = 0.5f;
-        [SerializeField, Min(0)]
-        private int _initCenterWidth = 16;
-        [SerializeField, Min(0f)]
-        private float _iterationDelay = 0.1f;
-        [SerializeField]
-        private Gradient _gradient;
+        protected CellularAutomatonSettings _settings;
 
         protected int _initKernelIndex;
         protected int _nextKernelIndex;
@@ -44,13 +30,13 @@ namespace CellularAutomata
         protected int _threadGroups;
         private Texture2D _ramp;
 
-        protected int Resolution => (int)this._resolution;
-
-        [ContextMenu("oui")]
-        void Oui()
-        {
-            _settings.SetSettings(this._resolution, this._rules, this._initializationMethod, this._initRandomStep, this._initCenterWidth, this._iterationDelay, this._gradient);
-        }
+        protected int Resolution => (int)this._settings.Resolution;
+        
+        // [ContextMenu("oui")]
+        // void Oui()
+        // {
+        //     _settings.SetSettings(this._resolution, this._rules, this._initializationMethod, this._initRandomStep, this._initCenterWidth, this._iterationDelay, this._gradient);
+        // }
         
         protected virtual void Init()
         {
@@ -60,8 +46,8 @@ namespace CellularAutomata
             
             this._threadGroups = Resolution / 8;
             this._computeShader.SetFloat(RESOLUTION_ID, this.Resolution);
-            this._computeShader.SetFloat(INIT_RANDOM_STEP_ID, this._initializationMethod.HasFlag(InitializationMethod.RANDOM_STEP) ? this._initRandomStep : 1f);
-            this._computeShader.SetInt(INIT_CENTER_WIDTH_ID, this._initializationMethod.HasFlag(InitializationMethod.CENTER_CELLS) ? this._initCenterWidth : this.Resolution);
+            this._computeShader.SetFloat(INIT_RANDOM_STEP_ID, this._settings.InitializationMethod.HasFlag(InitializationMethod.RANDOM_STEP) ? this._settings.InitRandomStep : 1f);
+            this._computeShader.SetInt(INIT_CENTER_WIDTH_ID, this._settings.InitializationMethod.HasFlag(InitializationMethod.CENTER_CELLS) ? this._settings.InitCenterWidth : this.Resolution);
         }
         
         protected abstract void Next();
@@ -72,7 +58,7 @@ namespace CellularAutomata
 
         protected void InitRules()
         {
-            (int surviveRule, int birthRule, int cellStatesRule, int neighbourhoodRule) = RulesParser.ParseRuleset(this._rules);
+            (int surviveRule, int birthRule, int cellStatesRule, int neighbourhoodRule) = RulesParser.ParseRuleset(this._settings.Rules);
             this._computeShader.SetInts(RULES_ID, surviveRule, birthRule, cellStatesRule, neighbourhoodRule);
         }
 
@@ -85,7 +71,7 @@ namespace CellularAutomata
             };
 
             for (int x = 0; x < this._ramp.width; ++x)
-                this._ramp.SetPixel(x, 0, this._gradient.Evaluate(x / (float)this._ramp.width));
+                this._ramp.SetPixel(x, 0, this._settings.Gradient.Evaluate(x / (float)this._ramp.width));
 
             this._ramp.Apply();
             targetMaterial.SetTexture(RAMP_SHADER_ID, this._ramp);
@@ -100,7 +86,7 @@ namespace CellularAutomata
         protected virtual void Update()
         {
             this._iterationTimer += Time.deltaTime;
-            if (this._iterationTimer > this._iterationDelay)
+            if (this._iterationTimer > this._settings.IterationDelay)
             {
                 this.Next();
                 this._iterationTimer = 0f;
