@@ -1,6 +1,6 @@
 namespace CellularAutomata
 {
-    public class BriansBrain : CellularAutomaton2D
+    public class BriansBrain : CellularAutomaton
     {
         protected override void Init()
         {

@@ -7,7 +7,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: 3DCell
+  m_Name: Cube
   m_Shader: {fileID: 4800000, guid: f534c86d4a2b11a4ab91780740ff06a3, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
