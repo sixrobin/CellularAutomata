@@ -2,7 +2,7 @@ namespace CellularAutomata
 {
     using UnityEngine;
 
-    public class LifeLike : CellularAutomaton
+    public class LifeLike : CellularAutomaton2D
     {
         [SerializeField]
         private string _rules;

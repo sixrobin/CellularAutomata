@@ -263,7 +263,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _resolution: 32
   _initRandomStep: 0.226
-  _rules: B9-10,16,23-24/S0-2,4,6-11,13-17,21-26
+  _rules: 9-10,16,23-24/0-2,4,6-11,13-17,21-26
 --- !u!4 &386382394
 Transform:
   m_ObjectHideFlags: 0

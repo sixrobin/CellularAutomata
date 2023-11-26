@@ -3,7 +3,7 @@ namespace CellularAutomata
     using UnityEngine;
 
     [DisallowMultipleComponent]
-    public abstract class CellularAutomaton : MonoBehaviour
+    public abstract class CellularAutomaton2D : MonoBehaviour
     {
         private static readonly int MAIN_TEX_SHADER_ID = Shader.PropertyToID("_MainTex");
         private static readonly int RAMP_SHADER_ID = Shader.PropertyToID("_Ramp");

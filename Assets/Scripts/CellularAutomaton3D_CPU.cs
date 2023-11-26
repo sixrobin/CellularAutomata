@@ -2,7 +2,7 @@ namespace CellularAutomata
 {
     using UnityEngine;
 
-    public class CellularAutomaton3D : MonoBehaviour
+    public class CellularAutomaton3D_CPU : MonoBehaviour
     {
         [SerializeField]
         private int _resolution = 16;
