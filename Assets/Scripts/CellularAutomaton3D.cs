@@ -10,10 +10,9 @@ namespace CellularAutomata
 
         public struct Cube
         {
-            public const int BUFFER_SIZE = sizeof(float) * 6 + sizeof(int) * 1;
+            public const int BUFFER_SIZE = sizeof(float) * 3 + sizeof(int) * 1;
 
             public Vector3 Position;
-            public Vector3 Color;
             public int State;
         }
 

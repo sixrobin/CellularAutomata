@@ -1,4 +1,4 @@
-Shader "Cellular Automaton"
+Shader "Cellular Automata/2D"
 {
     Properties
     {

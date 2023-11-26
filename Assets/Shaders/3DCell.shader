@@ -1,4 +1,4 @@
-Shader "Graph/Point Surface GPU"
+Shader "Cellular Automata/3D Cell"
 {
 	Properties
 	{
@@ -18,7 +18,6 @@ Shader "Graph/Point Surface GPU"
 		struct Cube
 		{
 		    float3 Position;
-			float3 Color;
 		    int State;
 		};
 		
@@ -42,16 +41,6 @@ Shader "Graph/Point Surface GPU"
 			unity_ObjectToWorld._m00_m11_m22 = 1;
 			#endif
 		}
-
-		void ShaderGraphFunction_float(float3 In, out float3 Out)
-		{
-			Out = In;
-		}
-
-		void ShaderGraphFunction_half(half3 In, out half3 Out)
-		{
-			Out = In;
-		}
 		
 		struct Input
 		{
@@ -61,17 +50,17 @@ Shader "Graph/Point Surface GPU"
 		void surf(Input input, inout SurfaceOutputStandard o)
 		{
 			#if defined(UNITY_PROCEDURAL_INSTANCING_ENABLED)
-				Cube cube = _Cubes[unity_InstanceID];
-				
-				if (cube.State == 0)
-					discard;
+			Cube cube = _Cubes[unity_InstanceID];
+			
+			if (cube.State == 0)
+				discard;
 
-				if (_ColorFromWorldPosition == 1)
-					o.Albedo = input.worldPos / _Resolution;
-				else if (_ColorFromState == 1)
-					o.Albedo = lerp(float3(1,0,0.5), float3(.3,.3,1), cube.State / (_Rules.z - 1));
-				else
-					o.Albedo = cube.Color;
+			if (_ColorFromWorldPosition == 1)
+				o.Albedo = input.worldPos / _Resolution;
+			else if (_ColorFromState == 1)
+				o.Albedo = lerp(float3(1,0,0.5), float3(.3,.3,1), cube.State / (_Rules.z - 1));
+			else
+				o.Albedo = float3(1,1,1);
 			#else
 				o.Albedo = input.worldPos;
 			#endif

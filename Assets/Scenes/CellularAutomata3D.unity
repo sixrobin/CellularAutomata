@@ -341,7 +341,7 @@ MonoBehaviour:
   _computeShader: {fileID: 7200000, guid: d619fafc81c34804ab94304664726192, type: 3}
   _resolution: 64
   _rules: 4-7/6-8/10/M
-  _iterationDelay: 0.1
+  _iterationDelay: 0.02
   _initializationMethod: -1
   _initCenterWidth: 8
   _initRandomStep: 0.82
