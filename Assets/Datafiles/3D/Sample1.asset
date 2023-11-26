@@ -21,16 +21,16 @@ MonoBehaviour:
   _iterationDelay: 0
   _gradient:
     serializedVersion: 2
-    key0: {r: 1, g: 0.81701356, b: 0.2783019, a: 1}
-    key1: {r: 1, g: 0.44950724, b: 0, a: 1}
+    key0: {r: 1, g: 0.94578034, b: 0.7877358, a: 1}
+    key1: {r: 1, g: 0.5811298, b: 0, a: 1}
     key2: {r: 0.9622642, g: 0, b: 0.17685014, a: 0}
     key3: {r: 0, g: 0, b: 0, a: 0}
     key4: {r: 0, g: 0, b: 0, a: 0}
     key5: {r: 0, g: 0, b: 0, a: 0}
     key6: {r: 0, g: 0, b: 0, a: 0}
     key7: {r: 0, g: 0, b: 0, a: 0}
-    ctime0: 0
-    ctime1: 33539
+    ctime0: 25829
+    ctime1: 38357
     ctime2: 65535
     ctime3: 0
     ctime4: 0
@@ -50,3 +50,4 @@ MonoBehaviour:
     m_NumColorKeys: 3
     m_NumAlphaKeys: 2
   _useWorldSpaceColor: 0
+  _useCenterDistanceColor: 0

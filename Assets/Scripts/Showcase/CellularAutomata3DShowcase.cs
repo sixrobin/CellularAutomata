@@ -30,9 +30,17 @@ namespace CellularAutomata.Showcase
             if (this._currentAutomatonIndex > -1)
                 this._automata[this._currentAutomatonIndex].gameObject.SetActive(false);
             
-            this._currentAutomatonIndex = ++_currentAutomatonIndex % this._settings.Length;
-            this._automata[this._currentAutomatonIndex].gameObject.SetActive(true);
-            this._interface.SetSettings(this._settings[this._currentAutomatonIndex]);
+            this._currentAutomatonIndex = ++_currentAutomatonIndex;
+
+            if (this._currentAutomatonIndex < this._automata.Length)
+            {
+                this._automata[this._currentAutomatonIndex].gameObject.SetActive(true);
+                this._interface.SetSettings(this._settings[this._currentAutomatonIndex]);
+            }
+            else
+            {
+                this._interface.SetSettings(null);
+            }
         }
 
         private void Start()

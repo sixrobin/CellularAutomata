@@ -339,7 +339,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _computeShader: {fileID: 7200000, guid: d619fafc81c34804ab94304664726192, type: 3}
-  _settings: {fileID: 11400000, guid: c14a3ea5bd6bc33468310e06b664633a, type: 2}
+  _settings: {fileID: 11400000, guid: 2a8930fc76c231047946af0d6bca5446, type: 2}
   _material: {fileID: 2100000, guid: f800254dfb95d7c46acaa05c11f6d6a4, type: 2}
   _mesh: {fileID: 4300000, guid: 386ab461dc1f6d947a57774705efdfa4, type: 2}
 --- !u!4 &1433379944
