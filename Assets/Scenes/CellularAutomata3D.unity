@@ -158,8 +158,8 @@ Camera:
   m_GameObject: {fileID: 14149963}
   m_Enabled: 1
   serializedVersion: 2
-  m_ClearFlags: 1
-  m_BackGroundColor: {r: 0.19215687, g: 0.3019608, b: 0.4745098, a: 0}
+  m_ClearFlags: 2
+  m_BackGroundColor: {r: 0.047169805, g: 0.047169805, b: 0.047169805, a: 0}
   m_projectionMatrixMode: 1
   m_GateFitMode: 2
   m_FOVAxisMode: 0
@@ -209,7 +209,7 @@ Transform:
   m_GameObject: {fileID: 14149963}
   serializedVersion: 2
   m_LocalRotation: {x: 0.3363917, y: -0.275047, z: 0.105568215, w: 0.89445245}
-  m_LocalPosition: {x: 85.82646, y: 109.160416, z: -43.180058}
+  m_LocalPosition: {x: 150.3, y: 193.5, z: -78.1}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -339,14 +339,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _computeShader: {fileID: 7200000, guid: d619fafc81c34804ab94304664726192, type: 3}
-  _resolution: 64
+  _resolution: 128
   _rules: 4-7/6-8/10/M
-  _iterationDelay: 0.02
+  _iterationDelay: 0
   _initializationMethod: -1
-  _initCenterWidth: 8
-  _initRandomStep: 0.82
+  _initCenterWidth: 16
+  _initRandomStep: 0.25
   _material: {fileID: 2100000, guid: f800254dfb95d7c46acaa05c11f6d6a4, type: 2}
-  _mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+  _mesh: {fileID: 4300000, guid: 386ab461dc1f6d947a57774705efdfa4, type: 2}
 --- !u!4 &1433379944
 Transform:
   m_ObjectHideFlags: 0
