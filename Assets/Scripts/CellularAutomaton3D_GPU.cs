@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class ComputeShaderLoop : MonoBehaviour
+public class CellularAutomaton3D_GPU : MonoBehaviour
 {
     private static readonly int RESOLUTION_ID = Shader.PropertyToID("_Resolution");
     private static readonly int CUBES_ID = Shader.PropertyToID("_Cubes");
