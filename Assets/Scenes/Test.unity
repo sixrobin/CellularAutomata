@@ -339,7 +339,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _computeShader: {fileID: 7200000, guid: 7ad49549b2294ab47a2f022cbfe08d90, type: 3}
-  _resolution: 96
+  _resolution: 32
   _rules: 4-7/6-8/10/M
   _initializationMethod: -1
   _initCenterWidth: 8
