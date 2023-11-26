@@ -31,6 +31,7 @@ Shader "Cellular Automata/3D Cell"
 
 		float _ColorFromState;
 		float _ColorFromWorldPosition;
+		sampler2D _Ramp;
 
 		void ConfigureProcedural()
 		{
@@ -58,7 +59,7 @@ Shader "Cellular Automata/3D Cell"
 			if (_ColorFromWorldPosition == 1)
 				o.Albedo = input.worldPos / _Resolution;
 			else if (_ColorFromState == 1)
-				o.Albedo = lerp(float3(1,0,0.5), float3(.3,.3,1), cube.State / (_Rules.z - 1));
+				o.Albedo = tex2D(_Ramp, float2(cube.State / (_Rules.z - 1), 0));
 			else
 				o.Albedo = float3(1,1,1);
 			#else
