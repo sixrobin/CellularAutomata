@@ -8,6 +8,8 @@ namespace CellularAutomata.Showcase
         private CellularAutomatonSettings[] _settings;
         [SerializeField]
         private CellularAutomaton3D _automaton;
+        [SerializeField]
+        private CellularAutomata3DShowcaseUI _interface;
 
         private CellularAutomaton3D[] _automata;
         private int _currentAutomatonIndex = -1;
@@ -28,8 +30,9 @@ namespace CellularAutomata.Showcase
             if (this._currentAutomatonIndex > -1)
                 this._automata[this._currentAutomatonIndex].gameObject.SetActive(false);
             
-            _currentAutomatonIndex = ++_currentAutomatonIndex % this._settings.Length;
+            this._currentAutomatonIndex = ++_currentAutomatonIndex % this._settings.Length;
             this._automata[this._currentAutomatonIndex].gameObject.SetActive(true);
+            this._interface.SetSettings(this._settings[this._currentAutomatonIndex]);
         }
 
         private void Start()
