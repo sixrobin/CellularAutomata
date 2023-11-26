@@ -37,6 +37,11 @@ namespace CellularAutomata
         // {
         //     _settings.SetSettings(this._resolution, this._rules, this._initializationMethod, this._initRandomStep, this._initCenterWidth, this._iterationDelay, this._gradient);
         // }
+
+        public void SetSettings(CellularAutomatonSettings settings)
+        {
+            this._settings = settings;
+        }
         
         protected virtual void Init()
         {
