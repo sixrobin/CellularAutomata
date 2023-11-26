@@ -23,6 +23,8 @@ namespace CellularAutomata
         private Gradient _gradient;
         [SerializeField]
         private bool _useWorldSpaceColor;
+        [SerializeField]
+        private bool _useCenterDistanceColor;
 
         public string DisplayName => string.IsNullOrEmpty(this._displayName) ? this.name : this._displayName;
         public Resolution Resolution => this._resolution;
@@ -33,6 +35,7 @@ namespace CellularAutomata
         public float IterationDelay => this._iterationDelay;
         public Gradient Gradient => this._gradient;
         public bool UseWorldSpaceColor => this._useWorldSpaceColor;
+        public bool UseCenterDistanceColor => this._useCenterDistanceColor;
 
         // public void SetSettings(Resolution res, string rules, InitializationMethod initMethod, float randomStep, int width, float delay, Gradient gradient)
         // {

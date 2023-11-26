@@ -18,7 +18,7 @@ MonoBehaviour:
   _initializationMethod: 2
   _initRandomStep: 0.46
   _initCenterWidth: 32
-  _iterationDelay: 0
+  _iterationDelay: 0.02
   _gradient:
     serializedVersion: 2
     key0: {r: 1, g: 0.8568336, b: 0.7216981, a: 1}
@@ -50,3 +50,4 @@ MonoBehaviour:
     m_NumColorKeys: 3
     m_NumAlphaKeys: 2
   _useWorldSpaceColor: 0
+  _useCenterDistanceColor: 1
