@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d6c9ae3a63f14c248a8c70fc13533378, type: 3}
   m_Name: PulseWaves
   m_EditorClassIdentifier: 
+  _displayName: Pulse Waves
   _resolution: 128
   _rules: 3/1-3/10/M
   _initializationMethod: -1
@@ -48,3 +49,4 @@ MonoBehaviour:
     m_ColorSpace: -1
     m_NumColorKeys: 2
     m_NumAlphaKeys: 2
+  _useWorldSpaceColor: 0

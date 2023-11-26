@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d6c9ae3a63f14c248a8c70fc13533378, type: 3}
   m_Name: ExpandingShell
   m_EditorClassIdentifier: 
+  _displayName: Expanding Shell
   _resolution: 128
   _rules: 6,7-9,11,13,15-16,18/6-10,13-14,16,18-19,22-25/5/M
   _initializationMethod: -1
@@ -48,3 +49,4 @@ MonoBehaviour:
     m_ColorSpace: -1
     m_NumColorKeys: 3
     m_NumAlphaKeys: 2
+  _useWorldSpaceColor: 0

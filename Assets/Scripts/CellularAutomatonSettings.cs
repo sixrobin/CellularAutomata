@@ -6,6 +6,8 @@ namespace CellularAutomata
     public class CellularAutomatonSettings : ScriptableObject
     {
         [SerializeField]
+        private string _displayName;
+        [SerializeField]
         private Resolution _resolution = CellularAutomata.Resolution._64;
         [SerializeField]
         private string _rules = "1/1/2/M";
@@ -22,6 +24,7 @@ namespace CellularAutomata
         [SerializeField]
         private bool _useWorldSpaceColor;
 
+        public string DisplayName => string.IsNullOrEmpty(this._displayName) ? this.name : this._displayName;
         public Resolution Resolution => this._resolution;
         public string Rules => this._rules;
         public InitializationMethod InitializationMethod => this._initializationMethod;

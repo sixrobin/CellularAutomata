@@ -12,9 +12,8 @@ namespace CellularAutomata.Showcase
 
         public void SetSettings(CellularAutomatonSettings settings)
         {
-            // TODO: Insert space in texts to make them easier to read.
-            this._nameText.text = settings.name;
-            this._rulesText.text = settings.Rules;
+            this._nameText.text = settings.DisplayName;
+            this._rulesText.text = settings.Rules.Replace("/", " / ").Trim();
         }
 
         private void Start()
