@@ -1,51 +1,47 @@
 #pragma kernel Init
-#pragma kernel Iterate
+#pragma kernel Next
 #pragma kernel ApplyBuffer
 
 #include "CellularAutomaton2D.cginc"
-#include "Random.cginc"
 
-int2 Rules;
-float InitRandomStep;
+float _InitRandomStep;
 
 [numthreads(8,8,1)]
 void Init(uint3 id : SV_DispatchThreadID)
 {
-    Result[id.xy] = float4(step(random(id.xy), InitRandomStep).xxx, 1);
+    _Result[id.xy] = float4(step(random(id.xy), _InitRandomStep).xxx, 1);
 }
 
 [numthreads(8,8,1)]
-void Iterate(uint3 id : SV_DispatchThreadID)
+void Next(uint3 id : SV_DispatchThreadID)
 {
-    float4 pos = float4(id.x / Resolution, id.y / Resolution, 0, 0);
-    int neighbours = computeNeighboursCount(pos);
-    float state = tex2Dlod(GridBuffer, pos).r;
+    float4 pos = float4(id.x / _Resolution, id.y / _Resolution, 0, 0);
+    int neighbours = ComputeNeighboursCount(pos);
+    float state = tex2Dlod(_GridBuffer, pos).r;
 
     // Modify neighbours count using 2^n formula to make it comparable with the rules, using a AND operator.
     neighbours = pow(2, neighbours);
     
     if (state < 1) // Dead.
     {
-        if ((neighbours & Rules.x) != 0 && Rules.x > -1)
+        if ((neighbours & _Rules.x) != 0 && _Rules.x > -1)
             state = 1;
         else
-            state -= DecayStep;
+            state -= _DecayStep;
     }
     else // Alive.
     {
-        if ((neighbours & Rules.y) != 0 && Rules.y > -1)
+        if ((neighbours & _Rules.y) != 0 && _Rules.y > -1)
             state = 1;
         else
-            state -= DecayStep;
+            state -= _DecayStep;
     }
     
-    Result[id.xy] = float4(state.xxx, 1);
+    _Result[id.xy] = float4(state.xxx, 1);
 }
 
 [numthreads(8,8,1)]
 void ApplyBuffer(uint3 id : SV_DispatchThreadID)
 {
-    float4 pos = float4(id.x / Resolution, id.y / Resolution, 0, 0);
-    float4 buffer = tex2Dlod(GridBuffer, pos);
-    Result[id.xy] = buffer;
+    ApplyBuffer(id.xy);
 }

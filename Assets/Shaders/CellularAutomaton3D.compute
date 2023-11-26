@@ -1,10 +1,10 @@
 #pragma kernel Init
-#pragma kernel ColorFromNeighbours
 #pragma kernel Next
 #pragma kernel PrepareBuffer
 #pragma kernel ApplyBuffer
 
-#include "Assets/Shaders/Random.cginc"
+#include "Random.cginc"
+#include "CellularAutomaton.cginc"
 
 struct Cube
 {
@@ -13,18 +13,15 @@ struct Cube
     int State;
 };
 
-RWTexture2D<float4> Result;
 RWStructuredBuffer<Cube> _CubesBuffer;
 RWStructuredBuffer<Cube> _Cubes;
-float _Resolution;
 float _InitRandomStep;
 int _InitCenterWidth;
-int4 _Rules;
 
 int getUID(uint3 id)
 {
     return id.x + id.y * _Resolution + id.z * _Resolution * _Resolution;
-} 
+}
 
 int getMooreNeighboursCount(uint3 id)
 {
@@ -143,15 +140,6 @@ void Init(uint3 id : SV_DispatchThreadID)
                             && id.z > halfResolution - halfInitCenterWidth
                             && id.z < halfResolution + halfInitCenterWidth ? _Rules.z - 1 : 0;
     }
-}
-
-[numthreads(8,8,8)]
-void ColorFromNeighbours(uint3 id : SV_DispatchThreadID)
-{
-    uint uid = getUID(id);
-    _Cubes[uid].Position = float3(id.xyz);
-    int neighboursCount = _Rules.w == 0 ? getMooreNeighboursCount(id) : getNeumannNeighboursCount(id);
-    _Cubes[uid].Color = float3((neighboursCount / 26.0).xxx);
 }
 
 [numthreads(8,8,8)]
