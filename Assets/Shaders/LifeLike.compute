@@ -26,14 +26,14 @@ void Iterate(uint3 id : SV_DispatchThreadID)
     
     if (state < 1) // Dead.
     {
-        if ((neighbours & Rules.x) != 0)
+        if ((neighbours & Rules.x) != 0 && Rules.x > -1)
             state = 1;
         else
             state -= DecayStep;
     }
     else // Alive.
     {
-        if ((neighbours & Rules.y) != 0)
+        if ((neighbours & Rules.y) != 0 && Rules.y > -1)
             state = 1;
         else
             state -= DecayStep;
