@@ -19,6 +19,8 @@ namespace CellularAutomata
         private float _iterationDelay = 0.1f;
         [SerializeField]
         private Gradient _gradient;
+        [SerializeField]
+        private bool _useWorldSpaceColor;
 
         public Resolution Resolution => this._resolution;
         public string Rules => this._rules;
@@ -27,7 +29,8 @@ namespace CellularAutomata
         public int InitCenterWidth => this._initCenterWidth;
         public float IterationDelay => this._iterationDelay;
         public Gradient Gradient => this._gradient;
-        
+        public bool UseWorldSpaceColor => this._useWorldSpaceColor;
+
         // public void SetSettings(Resolution res, string rules, InitializationMethod initMethod, float randomStep, int width, float delay, Gradient gradient)
         // {
         //     this._resolution = res;
