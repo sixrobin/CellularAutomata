@@ -2,25 +2,29 @@ namespace CellularAutomata.Editor
 {
     using UnityEngine;
 
+    /// <summary>
+    /// Quick and dirty implementation to generate a cube with only half of its faces.
+    /// Such a cube can be used for 3D cellular automata cells instancing, without the cost of 3 faces that are not facing the camera.
+    /// </summary>
     [RequireComponent(typeof(MeshFilter))]
     public class Cell3DCreator : MonoBehaviour
     {
-        [ContextMenu("Create")]
-        private void CreateCube()
+        [ContextMenu("Create 3 Faces Cube")]
+        private void CreateThreeFacesCube()
         {
             Vector3[] vertices =
             {
-                Vector3.zero,
-                Vector3.right,
-                Vector3.up,
-                new(1f, 1f),
-                Vector3.up,
-                new(1f, 1f),
+                new(0f, 0f, 0f),
+                new(1f, 0f, 0f),
+                new(0f, 1f, 0f),
+                new(1f, 1f, 0f),
+                new(0f, 1f, 0f),
+                new(1f, 1f, 0f),
                 new(0f, 1f, 1f),
-                Vector3.one,
-                new(1f, 1f),
-                Vector3.right,
-                Vector3.one,
+                new(1f, 1f, 1f),
+                new(1f, 1f, 0f),
+                new(1f, 0f, 0f),
+                new(1f, 1f, 1f),
                 new(1f, 0f, 1f),
             };
 
@@ -36,10 +40,10 @@ namespace CellularAutomata.Editor
 
             Vector3[] normals =
             {
-                -Vector3.forward,
-                -Vector3.forward,
-                -Vector3.forward,
-                -Vector3.forward,
+                Vector3.back,
+                Vector3.back,
+                Vector3.back,
+                Vector3.back,
                 Vector3.up,
                 Vector3.up,
                 Vector3.up,
@@ -50,19 +54,16 @@ namespace CellularAutomata.Editor
                 Vector3.right,
             };
 
-            Mesh mesh = new()
+            MeshFilter meshFilter = this.GetComponent<MeshFilter>();
+            if (meshFilter.mesh != null)
+                meshFilter.mesh.Clear();
+        
+            meshFilter.mesh = new Mesh
             {
                 vertices = vertices,
                 triangles = triangles,
                 normals = normals,
             };
-
-            MeshFilter meshFilter = this.GetComponent<MeshFilter>();
-            
-            if (meshFilter.mesh != null)
-                meshFilter.mesh.Clear();
-        
-            meshFilter.mesh = mesh;
         }
     }   
 }
