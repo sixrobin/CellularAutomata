@@ -8,8 +8,7 @@ namespace CellularAutomata
         private const string CUBES_ID = "_Cubes";
         private const string CUBES_BUFFER_ID = "_CubesBuffer";
         private static readonly int CUBES_SHADER_ID = Shader.PropertyToID("_Cubes");
-        private static readonly int COLOR_FROM_WORLD_POSITION_SHADER_ID = Shader.PropertyToID("_ColorFromWorldPosition");
-        private static readonly int COLOR_FROM_CENTER_DISTANCE_SHADER_ID = Shader.PropertyToID("_ColorFromCenterDistance");
+        private static readonly int COLOR_MODE_SHADER_ID = Shader.PropertyToID("_ColorMode");
 
         private struct Cube
         {
@@ -73,8 +72,7 @@ namespace CellularAutomata
 
             (int surviveRule, int birthRule, int cellStatesRule, int neighbourhoodRule) = RulesParser.ParseRuleset(this._settings.Rules);
             this._material.SetVector(RULES_ID, new Vector4(surviveRule, birthRule, cellStatesRule, neighbourhoodRule));
-            this._material.SetFloat(COLOR_FROM_WORLD_POSITION_SHADER_ID, this._settings.UseWorldSpaceColor ? 1f : 0f);
-            this._material.SetFloat(COLOR_FROM_CENTER_DISTANCE_SHADER_ID, this._settings.UseCenterDistanceColor ? 1f : 0f);
+            this._material.SetFloat(COLOR_MODE_SHADER_ID, (int)this._settings.ColorMode);
         }
         
         [ContextMenu("Next")]

@@ -17,7 +17,7 @@ namespace CellularAutomata
         
         /// <summary>
         /// Parses the birth and survive rules of a cellular automaton.
-        /// The rule uses the format A/B/C/D where A are the survive rules, B the birth rules, C the number of states a cell can have, and D the neighbourhood index.
+        /// The rule uses the format A/B/C/D where A is the survive rule, B the birth rule, C the number of states a cell can have, and D the neighbourhood index.
         /// Each neighbours count is split by a comma (,), and ranges can be marked using a hyphen (-). For instance, 1-3,7,8 means valid neighbours counts are 1, 2, 3, 7 and 8.
         /// The states count has a minimum of 2 and can then take as many values as desired.
         /// The neighbourhood is either 0 for Moore, or 1 for Von Neumann.

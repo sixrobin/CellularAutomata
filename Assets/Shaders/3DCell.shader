@@ -3,9 +3,6 @@ Shader "Cellular Automata/3D Cell"
 	Properties
 	{
 		_Smoothness ("Smoothness", Range(0, 1)) = 0.5
-		[MaterialToggle] _ColorFromState ("Color from State", Float) = 0
-		[MaterialToggle] _ColorFromWorldPosition ("Color from World Position", Float) = 0
-		[MaterialToggle] _ColorFromCenterDistance ("Color from Center Distance", Float) = 0
 	}
 	
 	SubShader
@@ -30,9 +27,7 @@ Shader "Cellular Automata/3D Cell"
 		float _Resolution;
 		float4 _Rules;
 
-		float _ColorFromState;
-		float _ColorFromWorldPosition;
-		float _ColorFromCenterDistance;
+		float _ColorMode;
 		sampler2D _Ramp;
 
 		void ConfigureProcedural()
@@ -58,16 +53,16 @@ Shader "Cellular Automata/3D Cell"
 			if (cube.State == 0)
 				discard;
 
-			if (_ColorFromWorldPosition == 1)
-				o.Albedo = cube.Position / _Resolution;
-			else if (_ColorFromCenterDistance == 1)
-				o.Albedo = tex2D(_Ramp, float2(distance(cube.Position / _Resolution, 0.5), 0));
-			else if (_ColorFromState == 1)
+			if (_ColorMode == 1)
 				o.Albedo = tex2D(_Ramp, float2(cube.State / (_Rules.z - 1), 0));
+			else if (_ColorMode == 2)
+				o.Albedo = cube.Position / _Resolution;
+			else if (_ColorMode == 3)
+				o.Albedo = tex2D(_Ramp, float2(distance(cube.Position / _Resolution, 0.5), 0));
 			else
 				o.Albedo = float3(1,1,1);
 			#else
-				o.Albedo = input.worldPos;
+			o.Albedo = input.worldPos;
 			#endif
 			
 			o.Smoothness = _Smoothness;

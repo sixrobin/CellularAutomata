@@ -49,5 +49,6 @@ MonoBehaviour:
     m_ColorSpace: -1
     m_NumColorKeys: 4
     m_NumAlphaKeys: 2
+  _colorMode: 1
   _useWorldSpaceColor: 0
   _useCenterDistanceColor: 0
