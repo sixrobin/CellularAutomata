@@ -59,9 +59,9 @@ Shader "Cellular Automata/3D Cell"
 				discard;
 
 			if (_ColorFromWorldPosition == 1)
-				o.Albedo = input.worldPos / _Resolution;
+				o.Albedo = cube.Position / _Resolution;
 			else if (_ColorFromCenterDistance == 1)
-				o.Albedo = tex2D(_Ramp, float2(distance(input.worldPos / _Resolution, 0.5), 0));
+				o.Albedo = tex2D(_Ramp, float2(distance(cube.Position / _Resolution, 0.5), 0));
 			else if (_ColorFromState == 1)
 				o.Albedo = tex2D(_Ramp, float2(cube.State / (_Rules.z - 1), 0));
 			else
