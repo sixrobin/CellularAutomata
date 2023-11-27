@@ -43,7 +43,7 @@ namespace CellularAutomata
             
             this._threadGroups = this._settings.Resolution / 8;
             this._computeShader.SetFloat(RESOLUTION_ID, this._settings.Resolution);
-            this._computeShader.SetFloat(INIT_RANDOM_STEP_ID, this._settings.InitializationMethod.HasFlag(InitializationMethod.RANDOM_STEP) ? this._settings.InitRandomStep : 1f);
+            this._computeShader.SetFloat(INIT_RANDOM_STEP_ID, this._settings.InitializationMethod.HasFlag(InitializationMethod.RANDOM_STATE) ? this._settings.InitRandomStep : 1f);
             this._computeShader.SetInt(INIT_CENTER_WIDTH_ID, this._settings.InitializationMethod.HasFlag(InitializationMethod.CENTER_CELLS) ? this._settings.InitCenterWidth : this._settings.Resolution);
         }
         

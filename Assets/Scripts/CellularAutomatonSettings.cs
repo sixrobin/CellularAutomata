@@ -12,7 +12,7 @@ namespace CellularAutomata
         [SerializeField]
         private string _rules = "1/1/2/M";
         [SerializeField]
-        private InitializationMethod _initializationMethod = InitializationMethod.RANDOM_STEP;
+        private InitializationMethod _initializationMethod = InitializationMethod.RANDOM_STATE;
         [SerializeField, Range(0f, 1f)]
         private float _initRandomStep = 0.5f;
         [SerializeField, Min(0)]
