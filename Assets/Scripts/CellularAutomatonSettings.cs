@@ -8,7 +8,7 @@ namespace CellularAutomata
         [SerializeField]
         private string _displayName;
         [SerializeField]
-        private Resolution _resolution = CellularAutomata.Resolution._64;
+        private int _resolution = 64;
         [SerializeField]
         private string _rules = "1/1/2/M";
         [SerializeField]
@@ -27,7 +27,7 @@ namespace CellularAutomata
         private bool _useCenterDistanceColor;
 
         public string DisplayName => string.IsNullOrEmpty(this._displayName) ? this.name : this._displayName;
-        public Resolution Resolution => this._resolution;
+        public int Resolution => this._resolution;
         public string Rules => this._rules;
         public InitializationMethod InitializationMethod => this._initializationMethod;
         public float InitRandomStep => this._initRandomStep;

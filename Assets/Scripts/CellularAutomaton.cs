@@ -30,14 +30,6 @@ namespace CellularAutomata
         protected int _threadGroups;
         private Texture2D _ramp;
 
-        protected int Resolution => (int)this._settings.Resolution;
-        
-        // [ContextMenu("oui")]
-        // void Oui()
-        // {
-        //     _settings.SetSettings(this._resolution, this._rules, this._initializationMethod, this._initRandomStep, this._initCenterWidth, this._iterationDelay, this._gradient);
-        // }
-
         public void SetSettings(CellularAutomatonSettings settings)
         {
             this._settings = settings;
@@ -49,10 +41,10 @@ namespace CellularAutomata
             this._nextKernelIndex = this._computeShader.FindKernel(KERNEL_NAME_NEXT);
             this._applyBufferKernelIndex = this._computeShader.FindKernel(KERNEL_NAME_APPLY_BUFFER);
             
-            this._threadGroups = Resolution / 8;
-            this._computeShader.SetFloat(RESOLUTION_ID, this.Resolution);
+            this._threadGroups = this._settings.Resolution / 8;
+            this._computeShader.SetFloat(RESOLUTION_ID, this._settings.Resolution);
             this._computeShader.SetFloat(INIT_RANDOM_STEP_ID, this._settings.InitializationMethod.HasFlag(InitializationMethod.RANDOM_STEP) ? this._settings.InitRandomStep : 1f);
-            this._computeShader.SetInt(INIT_CENTER_WIDTH_ID, this._settings.InitializationMethod.HasFlag(InitializationMethod.CENTER_CELLS) ? this._settings.InitCenterWidth : this.Resolution);
+            this._computeShader.SetInt(INIT_CENTER_WIDTH_ID, this._settings.InitializationMethod.HasFlag(InitializationMethod.CENTER_CELLS) ? this._settings.InitCenterWidth : this._settings.Resolution);
         }
         
         protected abstract void Next();

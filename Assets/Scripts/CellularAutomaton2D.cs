@@ -21,7 +21,7 @@ namespace CellularAutomata
 
         private RenderTexture CreateTexture()
         {
-            RenderTexture texture = new(this.Resolution, this.Resolution, 0, RenderTextureFormat.ARGB32)
+            RenderTexture texture = new(this._settings.Resolution, this._settings.Resolution, 0, RenderTextureFormat.ARGB32)
             {
                 enableRandomWrite = true,
                 filterMode = FilterMode.Point,

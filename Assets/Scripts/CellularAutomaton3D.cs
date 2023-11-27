@@ -30,12 +30,12 @@ namespace CellularAutomata
 
         private void CreateBuffers()
         {
-            Cube[] cubes = new Cube[this.Resolution * this.Resolution * this.Resolution];
+            Cube[] cubes = new Cube[this._settings.Resolution * this._settings.Resolution * this._settings.Resolution];
 
-            for (int x = 0; x < this.Resolution; ++x)
-                for (int y = 0; y < this.Resolution; ++y)
-                    for (int z = 0; z < this.Resolution; ++z)
-                        cubes[x + y * this.Resolution + z * this.Resolution * this.Resolution] = new Cube();
+            for (int x = 0; x < this._settings.Resolution; ++x)
+                for (int y = 0; y < this._settings.Resolution; ++y)
+                    for (int z = 0; z < this._settings.Resolution; ++z)
+                        cubes[x + y * this._settings.Resolution + z * this._settings.Resolution * this._settings.Resolution] = new Cube();
 
             this._cubes = new ComputeBuffer(cubes.Length, Cube.BUFFER_SIZE);
             this._cubesBuffer = new ComputeBuffer(cubes.Length, Cube.BUFFER_SIZE);
@@ -69,7 +69,7 @@ namespace CellularAutomata
             this._computeShader.Dispatch(this._initKernelIndex, this._threadGroups, this._threadGroups, this._threadGroups);
 
             this._material.SetBuffer(CUBES_SHADER_ID, this._cubes);
-            this._material.SetFloat(RESOLUTION_SHADER_ID, this.Resolution);
+            this._material.SetFloat(RESOLUTION_SHADER_ID, this._settings.Resolution);
 
             (int surviveRule, int birthRule, int cellStatesRule, int neighbourhoodRule) = RulesParser.ParseRuleset(this._settings.Rules);
             this._material.SetVector(RULES_ID, new Vector4(surviveRule, birthRule, cellStatesRule, neighbourhoodRule));
@@ -89,7 +89,7 @@ namespace CellularAutomata
         {
             base.Draw();
 
-            Bounds bounds = new(Vector3.zero, Vector3.one * this.Resolution);
+            Bounds bounds = new(Vector3.zero, Vector3.one * this._settings.Resolution);
             Graphics.DrawMeshInstancedProcedural(this._mesh, 0, this._material, bounds, this._cubes.count);
         }
 
@@ -108,7 +108,7 @@ namespace CellularAutomata
         {
             Gizmos.color = new Color(1f, 1f, 1f, 0.25f);
             
-            Vector3 size = Vector3.one * this.Resolution;
+            Vector3 size = Vector3.one * this._settings.Resolution;
             Gizmos.DrawWireCube(size * 0.5f, size);
         }
         #endregion // UNITY METHODS
