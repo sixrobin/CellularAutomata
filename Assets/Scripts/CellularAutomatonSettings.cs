@@ -10,7 +10,7 @@ namespace CellularAutomata
         [Tooltip("Display name, that's only used for UI or debugging.")]
         private string _displayName;
         
-        [SerializeField]
+        [SerializeField, Min(8)]
         [Tooltip("Automaton resolution (width, height, and depth for 3D automata).")]
         private int _resolution = 64;
         

@@ -17,7 +17,16 @@ RWStructuredBuffer<Cube> _Cubes;
 
 int GetUID(uint3 id)
 {
-    return id.x + id.y * _Resolution + id.z * _Resolution * _Resolution;
+    return id.x + (id.y * _Resolution) + (id.z * _Resolution * _Resolution);
+}
+
+int GetNeighbourNormalizedState(int3 neighbourID)
+{
+    if (neighbourID.x >= _Resolution || neighbourID.y >= _Resolution || neighbourID.z >= _Resolution)
+        return 0;
+                
+    Cube neighbour = _Cubes[GetUID(neighbourID)];
+    return neighbour.State == _Rules.z - 1 ? 1 : 0;
 }
 
 int ComputeMooreNeighboursCount(uint3 id)
@@ -25,24 +34,10 @@ int ComputeMooreNeighboursCount(uint3 id)
     int neighboursCount = 0;
 
     for (int x = -1; x <= 1; ++x)
-    {
         for (int y = -1; y <= 1; ++y)
-        {
             for (int z = -1; z <= 1; ++z)
-            {
-                if (x == 0 && y == 0 && z == 0)
-                    continue;
-
-                int3 neighbourID = id + int3(x,y,z);
-                if (neighbourID.x >= _Resolution || neighbourID.y >= _Resolution || neighbourID.z >= _Resolution)
-                    continue;
-                
-                uint neighbourUID = GetUID(neighbourID);
-                Cube neighbour = _Cubes[neighbourUID];
-                neighboursCount += neighbour.State == _Rules.z - 1 ? 1 : 0;
-            }
-        }
-    }
+                if (x != 0 || y != 0 || z != 0)
+                    neighboursCount += GetNeighbourNormalizedState(id + int3(x,y,z));
 
     return neighboursCount;
 }
@@ -51,86 +46,43 @@ int ComputeNeumannNeighboursCount(uint3 id)
 {
     int neighboursCount = 0;
 
-    // Negative X.
-    int3 neighbourID = id + int3(-1,0,0);
-    if (neighbourID.x <= _Resolution)
-    {
-        uint neighbourUID = GetUID(neighbourID);
-        Cube neighbour = _Cubes[neighbourUID];
-        neighboursCount += neighbour.State == _Rules.z - 1 ? 1 : 0;
-    }
-    // Positive X.
-    neighbourID = id + int3(1,0,0);
-    if (neighbourID.x <= _Resolution)
-    {
-        uint neighbourUID = GetUID(neighbourID);
-        Cube neighbour = _Cubes[neighbourUID];
-        neighboursCount += neighbour.State == _Rules.z - 1 ? 1 : 0;
-    }
-
-    // Negative Y.
-    neighbourID = id + int3(0,-1,0);
-    if (neighbourID.y <= _Resolution)
-    {
-        uint neighbourUID = GetUID(neighbourID);
-        Cube neighbour = _Cubes[neighbourUID];
-        neighboursCount += neighbour.State == _Rules.z - 1 ? 1 : 0;
-    }
-    // Positive Y.
-    neighbourID = id + int3(0,1,0);
-    if (neighbourID.y <= _Resolution)
-    {
-        uint neighbourUID = GetUID(neighbourID);
-        Cube neighbour = _Cubes[neighbourUID];
-        neighboursCount += neighbour.State == _Rules.z - 1 ? 1 : 0;
-    }
-
-    // Negative Z.
-    neighbourID = id + int3(0,0,-1);
-    if (neighbourID.z <= _Resolution)
-    {
-        uint neighbourUID = GetUID(neighbourID);
-        Cube neighbour = _Cubes[neighbourUID];
-        neighboursCount += neighbour.State == _Rules.z - 1 ? 1 : 0;
-    }
-    // Positive Z.
-    neighbourID = id + int3(0,0,1);
-    if (neighbourID.z <= _Resolution)
-    {
-        uint neighbourUID = GetUID(neighbourID);
-        Cube neighbour = _Cubes[neighbourUID];
-        neighboursCount += neighbour.State == _Rules.z - 1 ? 1 : 0;
-    }
-
+    neighboursCount += GetNeighbourNormalizedState(id - int3(1,0,0));
+    neighboursCount += GetNeighbourNormalizedState(id + int3(1,0,0));
+    neighboursCount += GetNeighbourNormalizedState(id - int3(0,1,0));
+    neighboursCount += GetNeighbourNormalizedState(id + int3(0,1,0));
+    neighboursCount += GetNeighbourNormalizedState(id - int3(0,0,1));
+    neighboursCount += GetNeighbourNormalizedState(id + int3(0,0,1));
+    
     return neighboursCount;
 }
 
 [numthreads(8,8,8)]
 void Init(uint3 id : SV_DispatchThreadID)
 {
-    float halfResolution = _Resolution / 2;
-    int display = step(random(id.xyz), _InitRandomStep);
+    float halfResolution = _Resolution * 0.5;
+    int state = step(random(id), _InitRandomStep);
 
     uint uid = GetUID(id);
-    _Cubes[uid].Position = float3(id.xyz);
+    _Cubes[uid].Position = id;
 
-    int3 sid = id;
-    
-    if (_InitCenterWidth == 1)
+    if (state == 1) // If state is alive, apply distance to center filter.
     {
-        _Cubes[uid].State = display == 1 && sid.x == halfResolution && sid.y == halfResolution && sid.z == halfResolution ? _Rules.z - 1 : 0;
-    }
-    else
-    {
-        float halfInitCenterWidth = ceil(_InitCenterWidth / 2.0);
+        int3 sid = id; // Use signed ID to avoid console warnings.
 
-        _Cubes[uid].State = display == 1
-                            && sid.x > halfResolution - halfInitCenterWidth
-                            && sid.x < halfResolution + halfInitCenterWidth
-                            && sid.y > halfResolution - halfInitCenterWidth
-                            && sid.y < halfResolution + halfInitCenterWidth
-                            && sid.z > halfResolution - halfInitCenterWidth
-                            && sid.z < halfResolution + halfInitCenterWidth ? _Rules.z - 1 : 0;
+        if (_InitCenterWidth == 1)
+        {
+            _Cubes[uid].State = sid.x == halfResolution && sid.y == halfResolution && sid.z == halfResolution ? _Rules.z - 1 : 0;
+        }
+        else
+        {
+            float halfInitCenterWidth = ceil(_InitCenterWidth * 0.5);
+            _Cubes[uid].State = sid.x > halfResolution - halfInitCenterWidth
+                                && sid.x < halfResolution + halfInitCenterWidth
+                                && sid.y > halfResolution - halfInitCenterWidth
+                                && sid.y < halfResolution + halfInitCenterWidth
+                                && sid.z > halfResolution - halfInitCenterWidth
+                                && sid.z < halfResolution + halfInitCenterWidth ? _Rules.z - 1 : 0;
+        }
     }
 }
 
@@ -139,6 +91,7 @@ void Next(uint3 id : SV_DispatchThreadID)
 {
     int uid = GetUID(id);
     Cube cube = _Cubes[uid];
+    
     int neighbours = _Rules.w == 0 ? ComputeMooreNeighboursCount(id) : ComputeNeumannNeighboursCount(id);
     neighbours = pow(2, neighbours);
 

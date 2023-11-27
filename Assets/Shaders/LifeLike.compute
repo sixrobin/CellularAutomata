@@ -8,25 +8,27 @@
 [numthreads(8,8,1)]
 void Init(uint3 id : SV_DispatchThreadID)
 {
-    float halfResolution = _Resolution / 2;
-    int state = step(random(id.xy), _InitRandomStep);
-    int3 sid = id;
+    float halfResolution = _Resolution * 0.5;
+    int state = step(random(id), _InitRandomStep);
 
-    if (_InitCenterWidth == 1)
+    if (state == 1) // If state is alive, apply distance to center filter.
     {
-        state = state == 1 && sid.x == halfResolution && sid.y == halfResolution ? _Rules.z - 1 : 0;
-    }
-    else
-    {
-        float halfInitCenterWidth = ceil(_InitCenterWidth / 2.0);
+        int3 sid = id; // Use signed ID to avoid console warnings.
 
-        state = state == 1
-                && sid.x > halfResolution - halfInitCenterWidth
-                && sid.x < halfResolution + halfInitCenterWidth
-                && sid.y > halfResolution - halfInitCenterWidth
-                && sid.y < halfResolution + halfInitCenterWidth ? _Rules.z - 1 : 0;
+        if (_InitCenterWidth == 1)
+        {
+            state = sid.x == halfResolution && sid.y == halfResolution ? _Rules.z - 1 : 0;
+        }
+        else
+        {
+            float halfInitCenterWidth = ceil(_InitCenterWidth * 0.5);
+            state = sid.x > halfResolution - halfInitCenterWidth
+                    && sid.x < halfResolution + halfInitCenterWidth
+                    && sid.y > halfResolution - halfInitCenterWidth
+                    && sid.y < halfResolution + halfInitCenterWidth ? _Rules.z - 1 : 0;
+        }
     }
-    
+
     _Result[id.xy] = float4(state.xxx, 1);
 }
 

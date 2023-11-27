@@ -12,12 +12,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d6c9ae3a63f14c248a8c70fc13533378, type: 3}
   m_Name: GameOfLife
   m_EditorClassIdentifier: 
+  _displayName: 
   _resolution: 256
   _rules: 3/2-3
   _initializationMethod: 2
   _initRandomStep: 0.5
   _initCenterWidth: 8
   _iterationDelay: 0.01
+  _colorMode: 2
   _gradient:
     serializedVersion: 2
     key0: {r: 1, g: 1, b: 1, a: 1}
