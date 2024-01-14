@@ -1,4 +1,4 @@
-# CellularAutomata
+# Cellular Automata
 A project about cellular automata, running using compute shaders in Unity.
 
 ![3DCellularAutomata_GitHub](https://github.com/sixrobin/CellularAutomata/assets/55784799/4431f063-3c3e-4ef2-ad69-edfc1d3d1f89)
